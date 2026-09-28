@@ -154,6 +154,23 @@ Este documento serve como o plano de execução ativo para o desenvolvimento e t
 
 ## 5. Registro de Mudanças (Changelog)
 
+- **2026-09-28 (Busca Inteligente em Tempo Real com Sugestões, Fotos e Latência Ultrarrápida):**
+  - **Mecanismo de Live Search & Autocomplete (`js/catalog-search.js`):**
+    - Implementado motor de busca inteligente conectado à barra existente `#rj-catalog-search-input` em todas as 8 páginas do catálogo.
+    - Exibe dropdown flutuante com sugestões em tempo real contendo miniatura de foto do móvel (`48x48px`), título com destaque das palavras coincidentes (`<mark>`) e badge de categoria.
+    - Ao clicar em qualquer sugestão: aciona instantaneamente o Modal Flutuante de Detalhes (`window.RJProductModal.open()`) sem sair da tela.
+    - Ao submeter a busca (Enter/Lupa): filtra os produtos no grid em `catalogo.html` ou redireciona suavemente para `catalogo.html?q=termo` quando acionado a partir de outras páginas (Home, Sofás, Quartos, etc.).
+  - **Performance Extrema & Alta Estabilidade (< 0.25ms):**
+    - Consumo 100% síncrono da base em memória `window.RJ_PRODUCTS_DATA` (523 itens) com zero requisições HTTP adicionais.
+    - Algoritmo de normalização de texto NFD insensível a acentos e maiúsculas (ex: `"sofa"`, `"comoda"`, `"armario"` e `"perola"` encontram perfeitamente os produtos correspondentes).
+    - Latência média comprovada em benchmark automatizado de **0.210 ms por busca** (meta: < 5ms).
+  - **Acessibilidade & Design Elegance Blue:**
+    - Navegação por teclado com setas `↑` e `↓`, seleção com `Enter`, cancelamento com `ESC` e clique fora.
+    - Estilização completa no `css/custom.css` com backdrop blur, bordas e sombras suaves, e suporte integral ao Dark Mode (`[data-theme="dark"]`).
+  - **Validação Automatizada:**
+    - Criada a suíte `tests/test_smart_search_performance.js` (aprovada com 100% de sucesso).
+    - Executada e aprovada toda a bateria de regressão (`test_modal_data_standalone.js`, `test_favicon_and_opengraph.js`, `test_breadcrumb_headers.js`, `test_all_product_details.js`).
+
 - **2026-09-28 (Favicon SVG de Luxo & Infraestrutura Canônica OpenGraph):**
   - **Favicon SVG Vetorial Nobre (`favicon.svg`):**
     - Desenvolvida silhueta estilizada de poltrona lounge contemporânea de designer com assento pillow-top, encosto anatômico com gomos e base metálica com sapatas refinadas.

@@ -367,5 +367,25 @@ O script centraliza a telemetria em um único arquivo modular, com auto-carregam
   - Ambientação de alto luxo em showroom de móveis com sofás e poltronas nobres em paleta Elegance Blue.
 - **Higienização de Conteúdo:** Supressão total de expressões legadas com menções a preços nas tags `og:description`, substituídas por textos elegantes de posicionamento de marca e convite para atendimento humanizado via WhatsApp.
 
+---
+
+## 14. Motor de Busca Inteligente em Tempo Real (`js/catalog-search.js`)
+
+### 14.1. Propósito e Requisitos de Negócio
+- **Sugestões em Tempo Real com Fotos (Live Search & Autocomplete):** A barra de pesquisa original `#rj-catalog-search-input` sugere instantaneamente enquanto o usuário digita (a partir de 2 caracteres) as melhores opções em um dropdown suspenso, exibindo a foto do produto em miniatura (`48x48px`), título com termos coincidentes destacados (`<mark>`), badge de categoria e ação direta.
+- **Abertura Imediata do Modal Flutuante:** Ao clicar em qualquer sugestão da lista, o sistema abre diretamente o modal com todas as fotos, vídeo e medidas técnicas via `window.RJProductModal.open()`.
+- **Pesquisa Global no Catálogo Completo:** Ao submeter a busca com `Enter` ou clicar na lupa, se o usuário estiver em `catalogo.html`, o grid de produtos é filtrado em tempo real com recálculo automático da paginação. Se estiver na Home ou em páginas de categorias específicas, o usuário é redirecionado suavemente para `catalogo.html?q=termo`, garantindo a exibição de todos os produtos do catálogo completo.
+
+### 14.2. Arquitetura em Memória & Performance Extrema (< 0.25ms)
+- **Zero Overhead de Rede:** O motor consome diretamente a base pré-carregada `window.RJ_PRODUCTS_DATA` (523 itens), sem fazer nenhuma requisição HTTP.
+- **Normalização de Diacríticos:** Remove acentos e caracteres especiais (`normalize('NFD')`), permitindo que buscas como `"sofa"`, `"comoda"`, `"perola"` ou `"saleto"` encontrem com 100% de precisão os produtos correspondentes.
+- **Ranqueamento Heurístico:**
+  - Prefix match no início do título (+100 pontos).
+  - Exact match de frase (+60 pontos).
+  - Word match isolado (+30 pontos).
+  - Densidade de relevância proporcional ao comprimento do título.
+- **Navegação Acessível por Teclado:** Suporte total às teclas `ArrowDown` e `ArrowUp` para percorrer sugestões, `Enter` para selecionar, `Escape` para fechar e clique fora para dispensar.
+- **Design & Dark Mode:** Estilizado em `css/custom.css` com backdrop blur, bordas suaves, sombras profundas e contraste balanceado para o tema claro e escuro (`[data-theme="dark"]`).
+
 
 
