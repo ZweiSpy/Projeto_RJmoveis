@@ -39,3 +39,12 @@ $RECYCLE.BIN/
 *.tmp
 *.bak
 *.orig
+
+# Arquivos brutos de extração / clone original (não versionar)
+site-catalogo-pg3.html
+site-catalogo-p2
+site-catalogo-pg4.html
+site-catalagos-pg5.html
+site-catalagos-pg6.html
+site-catalagos-pg7.html
+site-catalogos-original.html
