@@ -348,5 +348,24 @@ O script centraliza a telemetria em um único arquivo modular, com auto-carregam
   - Avisos importantes de montagem ou características técnicas (`Aviso importante:`, `Importante:`) são encapsulados em cartões de alerta informativos (`.modal-spec-notice`), com borda lateral âmbar e contraste ajustado para Light e Dark Mode.
   - Parágrafos contextuais são mantidos em tags `<p>` (`.modal-spec-p`) com entrelinhamento otimizado para leitura.
 
+---
+
+## 13. Identidade Visual de Favicon & Infraestrutura OpenGraph
+
+### 13.1. Favicon SVG Vetorial de Luxo (`favicon.svg`)
+- **Conceito & Símbolo:** Poltrona lounge contemporânea de designer com encosto anatômico curvo, assento pillow-top confortável e base metálica com sapatas refinadas.
+- **Paleta Nobre (Elegance Blue):**
+  - Fundo squircle em Navy profundo (`#090d16` a `#1e293b`) com raio suave (`rx="124"`) e borda dourada translúcida.
+  - Mobília preenchida com gradiente dourado metálico tridimensional (`#fffbeb` ➔ `#fde68a` ➔ `#f59e0b` ➔ `#d97706` ➔ `#92400e`).
+  - Sombra projetada suave (`feDropShadow`) conferindo acabamento escultural de joalheria.
+- **Resolução & Escalabilidade:** Formato SVG nativo (`viewBox="0 0 512 512"`) com nitidez perfeita em abas de navegadores (16x16 / 32x32), favoritos, bookmarks e telas Retina de alta densidade. Suporte via `<link rel="icon" type="image/svg+xml" href="favicon.svg">` e `<link rel="apple-touch-icon" href="favicon.svg">`.
+
+### 13.2. Infraestrutura OpenGraph & Twitter Cards
+- **Padronização em 8 Páginas:** Todas as páginas do catálogo contam com meta tags sociais canônicas estruturadas para WhatsApp, Facebook, Instagram, LinkedIn e Twitter/X.
+- **Imagem Canônica de Compartilhamento (`images/og-share.jpg`):**
+  - Resolução recomendada de alta definição (1200x630px / 1920x1080px em proporção 16:9 / 1.91:1).
+  - Ambientação de alto luxo em showroom de móveis com sofás e poltronas nobres em paleta Elegance Blue.
+- **Higienização de Conteúdo:** Supressão total de expressões legadas com menções a preços nas tags `og:description`, substituídas por textos elegantes de posicionamento de marca e convite para atendimento humanizado via WhatsApp.
+
 
 

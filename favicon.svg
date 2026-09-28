@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Gradiente de Fundo Navy de Luxo -->
+    <linearGradient id="bg-navy" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+
+    <!-- Gradiente Dourado Metálico Nobre -->
+    <linearGradient id="gold-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="25%" stop-color="#fde68a"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="75%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#92400e"/>
+    </linearGradient>
+
+    <!-- Gradiente Dourado de Destaque / Luz Superior -->
+    <linearGradient id="gold-highlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/>
+      <stop offset="35%" stop-color="#fef08a" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+
+    <!-- Gradiente Dourado Escuro para Sombreamento e Base -->
+    <linearGradient id="gold-base" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="50%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+
+    <!-- Brilho Dourado Sutil de Borda -->
+    <linearGradient id="border-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#d97706" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0.4"/>
+    </linearGradient>
+
+    <!-- Sombra suave para o corpo da poltrona -->
+    <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="125%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Fundo Squircle Elegance Blue -->
+  <rect width="512" height="512" rx="124" fill="url(#bg-navy)"/>
+  <rect width="504" height="504" x="4" y="4" rx="120" fill="none" stroke="url(#border-glow)" stroke-width="3"/>
+
+  <!-- Grupo da Mobília de Luxo (Poltrona Lounge) -->
+  <g filter="url(#soft-shadow)">
+    <!-- 1. Base Giratória e Pés da Poltrona -->
+    <!-- Haste central da base -->
+    <path d="M246 350 H266 V392 H246 Z" fill="url(#gold-base)" rx="4"/>
+    
+    <!-- Pés em leque / estrela contemporânea -->
+    <path d="M256 388 L348 424 C352 426 350 432 345 432 H332 L256 396 Z" fill="url(#gold-metal)"/>
+    <path d="M256 388 L164 424 C160 426 162 432 167 432 H180 L256 396 Z" fill="url(#gold-metal)"/>
+    <path d="M256 388 L256 438 C256 441 251 441 251 438 L251 388 Z" fill="url(#gold-base)"/>
+    <!-- Sapatas esféricas refinadas -->
+    <circle cx="170" cy="428" r="6" fill="url(#gold-highlight)"/>
+    <circle cx="342" cy="428" r="6" fill="url(#gold-highlight)"/>
+    <circle cx="256" cy="438" r="6" fill="url(#gold-highlight)"/>
+
+    <!-- 2. Casco Exterior / Estrutura Envolvente da Poltrona -->
+    <!-- Curvatura lateral e traseira fluida estilo Lounge Chair -->
+    <path d="M128 226 C124 168 152 112 212 98 C240 91 272 91 300 98 C360 112 388 168 384 226 C382 258 376 294 362 322 C350 346 322 362 292 364 H220 C190 362 162 346 150 322 C136 294 130 258 128 226 Z" 
+          fill="url(#gold-base)"/>
+
+    <!-- 3. Encosto Superior Acolchoado (Espaldar com gomos ergonômicos nobres) -->
+    <path d="M164 196 C160 150 186 116 230 108 C247 105 265 105 282 108 C326 116 352 150 348 196 C345 236 338 266 332 278 C324 286 304 290 256 290 C208 290 188 286 180 278 C174 266 167 236 164 196 Z" 
+          fill="url(#gold-metal)"/>
+
+    <!-- Costuras verticais / frisos de alfaiataria no encosto -->
+    <path d="M228 110 C224 160 220 220 224 288" stroke="#78350f" stroke-width="3" stroke-linecap="round" opacity="0.35"/>
+    <path d="M284 110 C288 160 292 220 288 288" stroke="#78350f" stroke-width="3" stroke-linecap="round" opacity="0.35"/>
+    <path d="M256 106 C256 160 256 220 256 290" stroke="#78350f" stroke-width="3.5" stroke-linecap="round" opacity="0.45"/>
+    <!-- Reflexo de luz na parte superior do encosto -->
+    <path d="M200 118 C232 108 280 108 312 118" stroke="url(#gold-highlight)" stroke-width="4.5" stroke-linecap="round" opacity="0.85"/>
+
+    <!-- 4. Apoios de Braço Ergonômicos Integrados -->
+    <!-- Braço Esquerdo -->
+    <path d="M128 226 C124 270 148 298 174 306 C186 310 196 298 194 284 C190 256 184 220 182 198 C160 200 132 208 128 226 Z" 
+          fill="url(#gold-highlight)"/>
+    <!-- Braço Direito -->
+    <path d="M384 226 C388 270 364 298 338 306 C326 310 316 298 318 284 C322 256 328 220 330 198 C352 200 380 208 384 226 Z" 
+          fill="url(#gold-highlight)"/>
+
+    <!-- 5. Almofada do Assento de Luxo (Pillow Top Conforto) -->
+    <ellipse cx="256" cy="316" rx="88" ry="34" fill="url(#gold-base)"/>
+    <ellipse cx="256" cy="310" rx="84" ry="30" fill="url(#gold-metal)"/>
+    <ellipse cx="256" cy="306" rx="72" ry="22" fill="url(#gold-highlight)" opacity="0.6"/>
+
+    <!-- Brilho no topo do assento -->
+    <path d="M208 306 C234 300 278 300 304 306" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" opacity="0.8"/>
+  </g>
+</svg>

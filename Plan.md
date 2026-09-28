@@ -154,6 +154,18 @@ Este documento serve como o plano de execução ativo para o desenvolvimento e t
 
 ## 5. Registro de Mudanças (Changelog)
 
+- **2026-09-28 (Favicon SVG de Luxo & Infraestrutura Canônica OpenGraph):**
+  - **Favicon SVG Vetorial Nobre (`favicon.svg`):**
+    - Desenvolvida silhueta estilizada de poltrona lounge contemporânea de designer com assento pillow-top, encosto anatômico com gomos e base metálica com sapatas refinadas.
+    - Aplicado gradiente dourado metálico tridimensional (`#fffbeb` a `#92400e`) sobre squircle navy profundo (`#090d16` a `#1e293b`), conferindo legibilidade e contraste absoluto tanto em abas claras quanto escuras do navegador, além de telas Retina e atalhos mobile.
+  - **Infraestrutura Canônica de OpenGraph & Twitter Cards:**
+    - Criado o diretório oficial `images/` e a imagem de compartilhamento social em alta definição `images/og-share.jpg` (showroom de luxo com mobília em paleta Elegance Blue).
+    - Implementadas meta tags canônicas completas (`og:type`, `og:site_name`, `og:url`, `og:title`, `og:description`, `og:image`, `og:image:width`, `og:image:height`, `twitter:card`, `twitter:image`, `link rel="canonical"`) em todas as 8 páginas do catálogo.
+    - Eliminado o caminho quebrado legado (`index.htmlfavicon/...`) e sanitizadas as descrições sociais, removendo qualquer resquício de menções a preços (`melhores preços`, `R$`, etc.).
+  - **Validação Automatizada:**
+    - Criada a suíte `tests/test_favicon_and_opengraph.js` (validando o SVG, a imagem `og-share.jpg`, todas as meta tags nas 8 páginas e zero menções a preços com 100% de aprovação).
+    - Aprovada toda a bateria de regressão (`test_modal_data_standalone.js`, `test_breadcrumb_headers.js`, `test_sorting_and_view_removal.js`).
+
 - **2026-09-28 (Arquitetura Standalone Zero-CORS, Galeria de Fotos e Formatador Semântico do Modal):**
   - **Causa Raiz Identificada:**
     1. *Bloqueio de CORS em `file:///`:* Ao abrir qualquer página do catálogo diretamente com duplo clique no Windows via protocolo local `file:///`, navegadores modernos bloqueiam chamadas assíncronas `fetch('data/products_details.json')` por restrição de segurança (`origin 'null'`), fazendo com que o modal acionasse o fallback estático e não exibisse as descrições nem as fotos secundárias dos produtos.
