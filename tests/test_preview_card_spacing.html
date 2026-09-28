@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview: Alinhamento e Espaçamento Interno dos Cards — RJ Móveis</title>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/custom.css">
+    <style>
+        body {
+            background-color: #f8fafc;
+            padding: 40px 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .header-test {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .theme-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .theme-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            background: #fff;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-test">
+            <h1 style="color: #1e293b;">Teste de Espaçamento e Alinhamento Interno dos Cards</h1>
+            <p style="color: #64748b;">Verificação de respiro entre a imagem e o texto, preenchimento da área e redução do vazio inferior até o botão.</p>
+        </div>
+
+        <div class="theme-buttons">
+            <button class="theme-btn" onclick="document.documentElement.removeAttribute('data-theme')">☀️ Modo Claro</button>
+            <button class="theme-btn" onclick="document.documentElement.setAttribute('data-theme', 'dark')">🌙 Modo Escuro</button>
+        </div>
+
+        <div class="collection-grid mode-grid rj-products-grid">
+            <!-- Card 1: 2 Linhas + Pronta Entrega + Oferta -->
+            <div class="storefront-cards collection-grid-card product-card position-relative template-cards h-100 flex" direction="column" justify-content="space-between">
+                <ul class="product-card-marks position-absolute flex" direction="column">
+                    <li class="mark-hotdeal text-center"> <span>Oferta</span> </li>
+                    <li class="mark-exclusive text-center"> <span>100% MDF</span> </li>
+                </ul>
+                <a href="#" class="flex product-link w-100 position-relative" align-items="center" justify-space="between" direction="column">
+                    <figure class="flex product-card-thumbnail text-center w-100 position-relative" direction="column" align-items="center">
+                        <img class="img-fluid product-primary-img" src="https://cdn.entrypoint.directory/assets/73084/produtos/1533/thumb_400-400-8979a3d3eaca04782f49b05695683b8069af2d74602f0.png" alt="Sofá Retrátil Reclinável Lima 2,00m Linho Cinza A59 - Sem Caixa">
+                    </figure>
+                </a>
+                <div class="card-body flex" wrap="true" align-items="center">
+                    <div class="product-card-title flex text-center grid-only w-100" justify-content="center">
+                        <a href="#">Sofá Retrátil Reclinável Lima 2,00m Linho Cinza A59 - Sem Caixa</a>
+                    </div>
+                    <div class="product-card-information-add">
+                        <div class="immediate-delivery">
+                            <a href="javascript:void(0)"><span>Pronta Entrega</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="foot-card flex" direction="column" justify-content="center">
+                    <a href="#" class="btn-whatsapp-cta" title="Chame no WhatsApp agora">
+                        <span>Chame no WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 2: 1 Linha + Pronta Entrega -->
+            <div class="storefront-cards collection-grid-card product-card position-relative template-cards h-100 flex" direction="column" justify-content="space-between">
+                <a href="#" class="flex product-link w-100 position-relative" align-items="center" justify-space="between" direction="column">
+                    <figure class="flex product-card-thumbnail text-center w-100 position-relative" direction="column" align-items="center">
+                        <img class="img-fluid product-primary-img" src="https://cdn.entrypoint.directory/assets/73084/produtos/1533/thumb_400-400-8979a3d3eaca04782f49b05695683b8069af2d74602f0.png" alt="Guarda-Roupa Casal 6 Portas">
+                    </figure>
+                </a>
+                <div class="card-body flex" wrap="true" align-items="center">
+                    <div class="product-card-title flex text-center grid-only w-100" justify-content="center">
+                        <a href="#">Guarda-Roupa Casal 6 Portas Nobre</a>
+                    </div>
+                    <div class="product-card-information-add">
+                        <div class="immediate-delivery">
+                            <a href="javascript:void(0)"><span>Pronta Entrega</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="foot-card flex" direction="column" justify-content="center">
+                    <a href="#" class="btn-whatsapp-cta" title="Chame no WhatsApp agora">
+                        <span>Chame no WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 3: 2 Linhas + SEM Pronta Entrega (testa preservação de alinhamento) -->
+            <div class="storefront-cards collection-grid-card product-card position-relative template-cards h-100 flex" direction="column" justify-content="space-between">
+                <a href="#" class="flex product-link w-100 position-relative" align-items="center" justify-space="between" direction="column">
+                    <figure class="flex product-card-thumbnail text-center w-100 position-relative" direction="column" align-items="center">
+                        <img class="img-fluid product-primary-img" src="https://cdn.entrypoint.directory/assets/73084/produtos/1533/thumb_400-400-8979a3d3eaca04782f49b05695683b8069af2d74602f0.png" alt="Mesa de Jantar 6 Cadeiras Tampo de Vidro Bisote">
+                    </figure>
+                </a>
+                <div class="card-body flex" wrap="true" align-items="center">
+                    <div class="product-card-title flex text-center grid-only w-100" justify-content="center">
+                        <a href="#">Mesa de Jantar 6 Cadeiras Tampo de Vidro Bisotê</a>
+                    </div>
+                    <div class="product-card-information-add">
+                        <!-- Sem selo: o slot reserva a mesma altura exata para manter a régua dos botões -->
+                    </div>
+                </div>
+                <div class="foot-card flex" direction="column" justify-content="center">
+                    <a href="#" class="btn-whatsapp-cta" title="Chame no WhatsApp agora">
+                        <span>Chame no WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 4: 2 Linhas Longo + Pronta Entrega -->
+            <div class="storefront-cards collection-grid-card product-card position-relative template-cards h-100 flex" direction="column" justify-content="space-between">
+                <a href="#" class="flex product-link w-100 position-relative" align-items="center" justify-space="between" direction="column">
+                    <figure class="flex product-card-thumbnail text-center w-100 position-relative" direction="column" align-items="center">
+                        <img class="img-fluid product-primary-img" src="https://cdn.entrypoint.directory/assets/73084/produtos/1533/thumb_400-400-8979a3d3eaca04782f49b05695683b8069af2d74602f0.png" alt="Cozinha Compacta 4 Peças com Torre Quente e Balcão">
+                    </figure>
+                </a>
+                <div class="card-body flex" wrap="true" align-items="center">
+                    <div class="product-card-title flex text-center grid-only w-100" justify-content="center">
+                        <a href="#">Cozinha Compacta 4 Peças com Torre Quente e Balcão para Pia</a>
+                    </div>
+                    <div class="product-card-information-add">
+                        <div class="immediate-delivery">
+                            <a href="javascript:void(0)"><span>Pronta Entrega</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="foot-card flex" direction="column" justify-content="center">
+                    <a href="#" class="btn-whatsapp-cta" title="Chame no WhatsApp agora">
+                        <span>Chame no WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

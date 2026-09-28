@@ -1,0 +1,245 @@
+/**
+ * ====================================================================
+ * PROJETO MEUSMÓVEIS — DESIGN TOKENS (ELEGANCE BLUE)
+ * ====================================================================
+ * Identidade Visual Sofisticada:
+ * - Primária: Azul Navy Profundo (#1e293b / #0f172a)
+ * - Destaque / Acento: Bronze & Dourado Nobre (#b45309 / #d97706)
+ * - Neutros: Off-white frio (#f8fafc) e Cinzas balanceados
+ * - Ação de Conversão: Verde WhatsApp Oficial (#25d366 / #128c7e)
+ * ====================================================================
+ */
+
+:root, html, body {
+    /* ----------------------------------------------------------------
+     * 1. Paleta de Cores Elegance Blue (Novos Tokens Oficiais)
+     * ---------------------------------------------------------------- */
+    --color-primary-navy: #1e293b !important;         /* Navy 800: Cabeçalho, botões primários, títulos fortes */
+    --color-primary-navy-dark: #0f172a !important;    /* Navy 900: Rodapé profundo, bordas ativas */
+    --color-primary-navy-light: #334155 !important;   /* Navy 700: Subtítulos, ícones de navegação */
+    --color-primary-navy-subtle: #f1f5f9 !important;  /* Navy 100: Fundos sutis, hover de itens de menu */
+
+    --color-accent-bronze: #b45309 !important;        /* Bronze/Dourado nobre: Badges, destaques seletos */
+    --color-accent-bronze-hover: #d97706 !important;  /* Bronze 600: Hover de links de destaque */
+    --color-accent-bronze-subtle: #fef3c7 !important; /* Âmbar 100: Fundo suave de tags promocionais */
+
+    /* Neutros & Superfície */
+    --color-bg-body: #f8fafc !important;              /* Slate 50: Fundo geral da página */
+    --color-bg-card: #ffffff !important;              /* Branco puro para cards de produto */
+    --color-bg-surface-elevated: #ffffff !important;  /* Superfícies elevadas (menus suspensos) */
+
+    --color-text-main: #0f172a !important;            /* Texto de alta legibilidade (Slate 900) */
+    --color-text-muted: #64748b !important;           /* Texto atenuado/secundário (Slate 500) */
+    --color-text-light: #ffffff !important;           /* Texto branco para fundos escuros */
+
+    --color-border-subtle: #e2e8f0 !important;        /* Slate 200: Linhas divisórias e contornos de cards */
+    --color-border-focus: #94a3b8 !important;         /* Slate 400: Foco e estados interativos */
+
+    /* Conversão WhatsApp */
+    --color-whatsapp: #25d366 !important;             /* Verde Oficial WhatsApp */
+    --color-whatsapp-hover: #1ebd5b !important;       /* Verde WhatsApp Hover */
+    --color-whatsapp-dark: #128c7e !important;        /* Verde Escuro / Borda WhatsApp */
+    --color-whatsapp-text: #ffffff !important;        /* Texto do CTA */
+
+    /* Tipografia e Raios */
+    --font-family-base: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+
+    /* Sombras Elegantes (com tom frio Navy sutil) */
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+    --shadow-card-hover: 0 12px 24px -4px rgba(30, 41, 59, 0.12);
+
+    /* ----------------------------------------------------------------
+     * 2. Sobrescrita Completa das Variáveis do Tema Antigo
+     * (Elimina Laranja #f96a1b e Marrom #4a2e22 com !important)
+     * ---------------------------------------------------------------- */
+
+    /* Botões legados */
+    --cor-bg-bt-alerta: var(--color-accent-bronze) !important;
+    --cor-bg-bt-cancel: #ef4444 !important;
+    --cor-bg-bt-confirm: var(--color-whatsapp) !important;
+    --cor-bg-bt-destaque: var(--color-primary-navy-subtle) !important;
+    --cor-bg-bt-inativo: #94a3b8 !important;
+    --cor-bg-bt-info: var(--color-primary-navy-light) !important;
+
+    --cor-realce-bt-alerta: var(--color-accent-bronze-hover) !important;
+    --cor-realce-bt-confirm: var(--color-whatsapp-hover) !important;
+    --cor-realce-bt-destaque: var(--color-primary-navy) !important;
+
+    /* Cabeçalho legado */
+    --cor-bg-cabecalho: #ffffff !important;
+    --cor-bg-busca: var(--color-bg-body) !important;
+    --cor-bg-login: var(--color-primary-navy) !important;
+    --cor-bg-menu: var(--color-primary-navy) !important;
+    --cor-bg-reduzido: #ffffff !important;
+    --cor-bg-fundo-sub: var(--color-bg-body) !important;
+
+    --cor-txt-cabecalho: var(--color-text-main) !important;
+    --cor-txt-busca: var(--color-text-main) !important;
+    --cor-txt-login: var(--color-text-light) !important;
+    --cor-txt-menu: var(--color-text-light) !important;
+    --cor-txt-reduzido: var(--color-text-main) !important;
+
+    --cor-realce-cb-realce: var(--color-accent-bronze) !important;
+    --cor-realce-cb-login: var(--color-primary-navy-dark) !important;
+    --cor-realce-cb-menu: var(--color-accent-bronze) !important;
+
+    /* Corpo & Grade de Produtos legada */
+    --cor-bg-corpo: var(--color-bg-body) !important;
+    --cor-txt-gerais: var(--color-text-main) !important;
+    --cor-bg-blcs-gp: var(--color-bg-card) !important;
+    --cor-bg-fd-gp: var(--color-bg-card) !important;
+    --cor-txt-nome-prto: var(--color-text-main) !important;
+    --cor-txt-prc-prto: transparent !important; /* Preço suprimido */
+
+    /* Tags e Selos legados */
+    --cor-bg-tag-desc: var(--color-accent-bronze) !important;
+    --cor-bg-tag-exclus: var(--color-primary-navy) !important;
+    --cor-bg-tag-lanc: var(--color-accent-bronze) !important;
+    --cor-bg-tag-ofer: var(--color-accent-bronze) !important;
+
+    /* Rodapé legado */
+    --cor-bg-rodape: var(--color-primary-navy-dark) !important;
+    --cor-bg-creditos: var(--color-primary-navy-dark) !important;
+    --cor-bg-news: var(--color-primary-navy) !important;
+    --cor-bg-btn-nwes: var(--color-accent-bronze) !important;
+    --cor-txt-rodape: #cbd5e1 !important;
+    --cor-txt-rodape-hover: var(--color-text-light) !important;
+    --cor-txt-nwes: var(--color-text-light) !important;
+    --cor-txt-creditos: #94a3b8 !important;
+
+    /* Variáveis prefixadas com --jc- (Tema Custom da Loja Original) */
+    --jc-marca: var(--color-primary-navy) !important;
+    --jc-marca-escuro: var(--color-primary-navy-dark) !important;
+    --jc-marca-claro: var(--color-primary-navy-subtle) !important;
+    --jc-marca-borda: var(--color-border-subtle) !important;
+    --jc-marca-suave: var(--color-primary-navy-light) !important;
+    --jc-marca-suave-escuro: var(--color-primary-navy) !important;
+    --jc-marrom: var(--color-primary-navy) !important;
+    --jc-fundo: var(--color-bg-body) !important;
+    --jc-card: var(--color-bg-card) !important;
+    --jc-borda: var(--color-border-subtle) !important;
+    --jc-borda-suave: var(--color-border-subtle) !important;
+    --jc-texto: var(--color-text-main) !important;
+    --jc-texto-suave: var(--color-text-muted) !important;
+    --jc-raio: var(--radius-md) !important;
+    --jc-raio-botao: var(--radius-sm) !important;
+    --jc-sombra: var(--shadow-sm) !important;
+}
+
+/* --------------------------------------------------------------------
+ * 3. Tema Dark em Alto Contraste ([data-theme="dark"])
+ * -------------------------------------------------------------------- */
+:root[data-theme="dark"],
+html[data-theme="dark"],
+html[data-theme="dark"] body,
+body[data-theme="dark"],
+[data-theme="dark"] {
+    color-scheme: dark;
+
+    /* Cores Primárias Elegance Blue em Alto Contraste */
+    --color-primary-navy: #3b82f6 !important;         /* Azul royal luminoso para destaque */
+    --color-primary-navy-dark: #070a13 !important;    /* Preto/Navy profundo */
+    --color-primary-navy-light: #60a5fa !important;   /* Azul céu para links/secundários */
+    --color-primary-navy-subtle: #1e293b !important;  /* Slate 800 para hover/fundos sutis */
+
+    /* Dourado Nobre / Âmbar Radiante (Contraste Superior no Escuro) */
+    --color-accent-bronze: #fbbf24 !important;        /* Ouro Âmbar vibrante: Alta legibilidade */
+    --color-accent-bronze-hover: #f59e0b !important;  /* Âmbar 500 */
+    --color-accent-bronze-subtle: #451a03 !important; /* Fundo suave âmbar */
+
+    /* Superfícies & Neutros Escuros */
+    --color-bg-body: #0b0f19 !important;              /* Obsidian/Navy ultra profundo */
+    --color-bg-card: #151e2e !important;              /* Superfície elevada para cards */
+    --color-bg-surface-elevated: #1e293b !important;  /* Superfícies elevadas (menus suspensos) */
+
+    /* Tipografia de Alto Contraste */
+    --color-text-main: #f8fafc !important;            /* Branco puro de alto contraste */
+    --color-text-muted: #94a3b8 !important;           /* Prata suave para metadados */
+    --color-text-light: #ffffff !important;
+
+    /* Bordas de Contraste */
+    --color-border-subtle: #27354a !important;        /* Borda nítida de card */
+    --color-border-focus: #38bdf8 !important;
+
+    /* Conversão WhatsApp (Mantido Verde Oficial com Alto Brilho) */
+    --color-whatsapp: #25d366 !important;
+    --color-whatsapp-hover: #1ebd5b !important;
+    --color-whatsapp-dark: #128c7e !important;
+    --color-whatsapp-text: #ffffff !important;
+
+    /* Sombras com Profundidade Escura */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 10px 20px -3px rgba(0, 0, 0, 0.7);
+    --shadow-card-hover: 0 14px 28px -4px rgba(0, 0, 0, 0.8), 0 0 12px rgba(59, 130, 246, 0.15);
+
+    /* Sobrescritas das Variáveis Legadas em Dark Mode */
+    --cor-bg-bt-alerta: var(--color-accent-bronze) !important;
+    --cor-bg-bt-cancel: #ef4444 !important;
+    --cor-bg-bt-confirm: var(--color-whatsapp) !important;
+    --cor-bg-bt-destaque: var(--color-primary-navy-subtle) !important;
+    --cor-bg-bt-inativo: #475569 !important;
+    --cor-bg-bt-info: var(--color-primary-navy-light) !important;
+
+    --cor-realce-bt-alerta: var(--color-accent-bronze-hover) !important;
+    --cor-realce-bt-confirm: var(--color-whatsapp-hover) !important;
+    --cor-realce-bt-destaque: var(--color-primary-navy) !important;
+
+    --cor-bg-cabecalho: #0f172a !important;
+    --cor-bg-busca: #151e2e !important;
+    --cor-bg-login: var(--color-primary-navy) !important;
+    --cor-bg-menu: #070a13 !important;
+    --cor-bg-reduzido: #0f172a !important;
+    --cor-bg-fundo-sub: #151e2e !important;
+
+    --cor-txt-cabecalho: var(--color-text-main) !important;
+    --cor-txt-busca: var(--color-text-main) !important;
+    --cor-txt-login: var(--color-text-light) !important;
+    --cor-txt-menu: var(--color-text-light) !important;
+    --cor-txt-reduzido: var(--color-text-main) !important;
+
+    --cor-realce-cb-realce: var(--color-accent-bronze) !important;
+    --cor-realce-cb-login: var(--color-primary-navy-dark) !important;
+    --cor-realce-cb-menu: var(--color-accent-bronze) !important;
+
+    --cor-bg-corpo: var(--color-bg-body) !important;
+    --cor-txt-gerais: var(--color-text-main) !important;
+    --cor-bg-blcs-gp: var(--color-bg-card) !important;
+    --cor-bg-fd-gp: var(--color-bg-card) !important;
+    --cor-txt-nome-prto: var(--color-text-main) !important;
+    --cor-txt-prc-prto: transparent !important;
+
+    --cor-bg-tag-desc: var(--color-accent-bronze) !important;
+    --cor-bg-tag-exclus: #1e293b !important;
+    --cor-bg-tag-lanc: var(--color-accent-bronze) !important;
+    --cor-bg-tag-ofer: var(--color-accent-bronze) !important;
+
+    --cor-bg-rodape: #070a13 !important;
+    --cor-bg-creditos: #04060a !important;
+    --cor-bg-news: #0f172a !important;
+    --cor-bg-btn-nwes: var(--color-accent-bronze) !important;
+    --cor-txt-rodape: #94a3b8 !important;
+    --cor-txt-rodape-hover: var(--color-text-light) !important;
+    --cor-txt-nwes: var(--color-text-light) !important;
+    --cor-txt-creditos: #64748b !important;
+
+    --jc-marca: var(--color-primary-navy) !important;
+    --jc-marca-escuro: var(--color-primary-navy-dark) !important;
+    --jc-marca-claro: var(--color-primary-navy-subtle) !important;
+    --jc-marca-borda: var(--color-border-subtle) !important;
+    --jc-marca-suave: var(--color-primary-navy-light) !important;
+    --jc-marca-suave-escuro: var(--color-primary-navy) !important;
+    --jc-marrom: #151e2e !important;
+    --jc-fundo: var(--color-bg-body) !important;
+    --jc-card: var(--color-bg-card) !important;
+    --jc-borda: var(--color-border-subtle) !important;
+    --jc-borda-suave: var(--color-border-subtle) !important;
+    --jc-texto: var(--color-text-main) !important;
+    --jc-texto-suave: var(--color-text-muted) !important;
+}
