@@ -386,6 +386,8 @@ O script centraliza a telemetria em um único arquivo modular, com auto-carregam
   - Densidade de relevância proporcional ao comprimento do título.
 - **Navegação Acessível por Teclado:** Suporte total às teclas `ArrowDown` e `ArrowUp` para percorrer sugestões, `Enter` para selecionar, `Escape` para fechar e clique fora para dispensar.
 - **Design & Dark Mode:** Estilizado em `css/custom.css` com backdrop blur, bordas suaves, sombras profundas e contraste balanceado para o tema claro e escuro (`[data-theme="dark"]`).
+- **Alinhamento do Ícone de Lupa (SVG Vetorial):** Substituição de emojis não-padronizados por SVG vetorial nítido (`24x24`, stroke `2.2px`), posicionado no canto direito interno do input (`right: 6px; top: 50%; transform: translateY(-50%)`) com botão circular ergonômico de 34x34px, microinteração hover/active, respiro de 46px no input para impedir sobreposição de texto digitado e redundância de submissão via submit/click.
+
 
 
 

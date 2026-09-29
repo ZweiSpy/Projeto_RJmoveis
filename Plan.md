@@ -154,6 +154,17 @@ Este documento serve como o plano de execução ativo para o desenvolvimento e t
 
 ## 5. Registro de Mudanças (Changelog)
 
+- **2026-09-28 (Alinhamento Milimétrico do Ícone de Lupa na Caixa de Busca):**
+  - **Ícone SVG Vetorial de Luxo (`.rj-search-icon`):**
+    - Substituição do emoji não-padronizado `🔍` por ícone vetorial SVG ultra nítido (`stroke-width: 2.2px`) em todas as 8 páginas do catálogo e no script construtor `build_all_catalog_pages.js`.
+  - **Alinhamento e Centralização no Canto Direito Interno (`css/custom.css`):**
+    - Enquadramento do formulário com `display: flex; align-items: center; position: relative; width: 100%`.
+    - Input estilizado com altura ergonômica de 44px e padding direito de 46px, evitando qualquer sobreposição de texto digitado sobre o botão.
+    - Botão `.rj-search-btn` centralizado com `position: absolute; right: 6px; top: 50%; transform: translateY(-50%)`, dimensões de 34x34px, hover com fundo translúcido e realce bronze/dourado.
+    - Suporte ao Dark Mode com contraste balanceado (`#94a3b8` / hover `#f59e0b`).
+  - **Validação Automatizada:**
+    - Criada a suíte `tests/test_search_icon_alignment.js`, aprovada com 100% de sucesso em todas as páginas.
+
 - **2026-09-28 (Busca Inteligente em Tempo Real com Sugestões, Fotos e Latência Ultrarrápida):**
   - **Mecanismo de Live Search & Autocomplete (`js/catalog-search.js`):**
     - Implementado motor de busca inteligente conectado à barra existente `#rj-catalog-search-input` em todas as 8 páginas do catálogo.

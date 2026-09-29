@@ -451,6 +451,14 @@
                 e.preventDefault();
                 executeGlobalSearch(searchInput.value);
             });
+
+            const searchBtn = searchForm.querySelector('.rj-search-btn, button[type="submit"]');
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    executeGlobalSearch(searchInput.value);
+                });
+            }
         }
 
         // Fechar dropdown ao clicar fora

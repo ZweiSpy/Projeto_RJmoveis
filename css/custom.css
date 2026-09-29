@@ -126,15 +126,27 @@ header.rj-header {
     position: relative;
 }
 
+.rj-search-box form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .rj-search-box input {
     width: 100%;
+    height: 44px;
     box-sizing: border-box;
-    padding: 10px 42px 10px 16px;
+    padding: 0 46px 0 18px;
     border: 1.5px solid var(--color-border-subtle);
     border-radius: var(--radius-full);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
+    font-family: inherit;
     background-color: var(--color-bg-body);
     color: var(--color-text-main);
+    line-height: 44px;
     transition: all 0.2s ease;
 }
 
@@ -145,17 +157,51 @@ header.rj-header {
     box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.12);
 }
 
-.rj-search-box button {
+/* Botão da Lupa perfeitamente alinhado e centralizado no canto direito interno */
+.rj-search-box button,
+.rj-search-box .rj-search-btn {
     position: absolute;
-    right: 12px;
+    right: 6px;
     top: 50%;
     transform: translateY(-50%);
-    background: none;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
     border: none;
+    border-radius: 50%;
     color: var(--color-primary-navy);
     cursor: pointer;
-    font-size: 1rem;
-    padding: 4px;
+    padding: 0;
+    margin: 0;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+}
+
+.rj-search-box button:hover,
+.rj-search-box .rj-search-btn:hover {
+    background-color: rgba(30, 41, 59, 0.08);
+    color: var(--color-accent-bronze);
+    transform: translateY(-50%) scale(1.06);
+}
+
+.rj-search-box button:active,
+.rj-search-box .rj-search-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.rj-search-box .rj-search-icon,
+.rj-search-box button svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    display: block;
+    pointer-events: none;
 }
 
 /* Dropdown de Sugestões em Tempo Real da Busca Inteligente */
@@ -1135,8 +1181,15 @@ body[data-theme="dark"],
     box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
 }
 
-[data-theme="dark"] .rj-search-box button {
+[data-theme="dark"] .rj-search-box button,
+[data-theme="dark"] .rj-search-box .rj-search-btn {
     color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .rj-search-box button:hover,
+[data-theme="dark"] .rj-search-box .rj-search-btn:hover {
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    color: #f59e0b !important;
 }
 
 /* Busca Inteligente no Dark Mode */
