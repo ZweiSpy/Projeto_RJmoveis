@@ -337,13 +337,26 @@ Este documento serve como o plano de execução ativo para o desenvolvimento e t
   - Remoção de números de telefone do texto dos botões de WhatsApp, substituídos por "Chame no WhatsApp" e mensagem dinâmica de origem.
   - Implementação de `js/analytics.js` com suporte a Google Analytics 4, Meta Pixel, Vercel Analytics e relatório em console.
   - Criação da suíte `tests/test_layout_and_analytics.js` e aprovação de 100% dos testes.
-- **2026-09-26:**
-  - Criação do framework de governança (`AGENTS.md`).
-  - Criação do Documento de Design de Software (`SDD.md`).
-  - Criação do Roadmap Operacional (`Plan.md`).
-  - Definição da paleta **Elegance Blue** e integração do CTA de WhatsApp para conversão de vendas diretas.
-  - Correção dos grids, alinhamento dos cards em 260px com Flexbox responsivo e supressão total de preços (Delta = 0).
-  - Atualização completa de todos os ícones para o vetor oficial idêntico do WhatsApp (`viewBox="0 0 448 512"` com balão e monofone).
-  - Implementação do pulso com batida rítmica (heartbeat tum-tum + ondas de choque radar) no botão flutuante.
-  - Inclusão dos créditos de desenvolvimento institucional para **Zwei Coorporações LTDA** (`zweicoorp.com.br`).
-
+- **2026-09-28 / 2026-09-29 (Implementação dos 5 Pilares de CRO — Otimização de Conversões WhatsApp):**
+  - **Pilar 1 (Smart Floating WhatsApp Chat Bubble):**
+    - Criado módulo `js/cro-enhancements.js` com balão proativo (`#rj-whatsapp-bubble`) posicionado sobre o botão flutuante.
+    - Componente inclui avatar de consultor, farol de status online pulsante (`.rj-status-beacon`), mensagem persuasiva ("Posso te ajudar a consultar cores, tecidos ou prazo para o seu bairro no Rio?"), botão de ação rápida e botão fechar (`×`) com persistência em `sessionStorage` (`rj_bubble_dismissed`).
+    - Disparo inteligente após 3.5s ou 25% de rolagem da página.
+  - **Pilar 2 (Recuperação de Busca Vazia — Zero-Results CRO):**
+    - Em `js/catalog-search.js`, quando não há resultados digitados ou filtrados no grid, exibe o card `.rj-search-empty-cro` ("Não encontrou o modelo exato? Nós temos na fábrica!") com botão direto de WhatsApp contextualizado com o termo pesquisado.
+    - Adicionado micro-link persuasivo no rodapé do dropdown de sugestões: *"Procura outro modelo? Fale com a fábrica no WhatsApp →"*.
+  - **Pilar 3 (Trust Badges & Simulação de Frete no Modal):**
+    - Em `js/product-modal.js`, adicionado botão secundário `#modal-frete-link` ("Simular Frete & Prazo no WhatsApp") com mensagem pré-formatada para cotação de CEP/bairro.
+    - Adicionado container `.modal-trust-badges` com 3 selos de confiança: *🚚 Entrega Cuidadosa (RJ & Região)*, *🎨 Cores & Tecidos (Consulte opções)* e *🤝 Atendimento Humano (Especialistas direto no WhatsApp)*.
+  - **Pilar 4 (Sticky Mobile CRO Bar):**
+    - Barra fixa no rodapé para dispositivos móveis (`@media (max-width: 768px)`): `#rj-mobile-sticky-bar` com botão largo de WhatsApp (*Chamar no WhatsApp • Resposta Rápida*) e atalho para o Catálogo.
+    - Adicionada compensação inferior segura no body (`padding-bottom: 64px !important`) e reposicionamento automático do botão flutuante e do balão.
+  - **Pilar 5 (Copywriting Persuasivo com Negrito no WhatsApp):**
+    - Atualizados todos os 1.561 cards de produtos nas 8 páginas para exibir `<span>Consultar no WhatsApp</span>` com classe `.btn-whatsapp-cta`.
+    - Mensagens pré-formatadas atualizadas com o nome do móvel em negrito: `*${title}*`, qualificando o lead e agilizando o atendimento.
+  - **Limpeza de Trackers Legados & Governança:**
+    - Removidas tags legadas de CSS e JS da `front-libs.iset.io` em todas as páginas, eliminando requisições externas e garantindo conformidade com `AGENTS.md`.
+    - 100% de suporte a Dark Mode com variáveis do padrão Elegance Blue.
+  - **Validação Automatizada:**
+    - Criada e aprovada a suíte `tests/test_cro_whatsapp_conversions.js` com 15 asserções (100% PASS).
+    - Aprovadas todas as suítes de regressão do projeto com 0 falhas.

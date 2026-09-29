@@ -143,11 +143,11 @@ SOURCE_FILES.forEach(({ file, pageNum }) => {
         // Sanitização Rigorosa do Card:
         // Mensagem que indica que o cliente veio diretamente do site:
         const safeTitle = title.replace(/"/g, '&quot;');
-        const encodedMsg = encodeURIComponent(`Olá! Estava no site da RJ Móveis e quero saber mais sobre o produto: "${title}". Poderia me ajudar?`);
+        const encodedMsg = encodeURIComponent(`Olá, equipe RJ Móveis! Tenho interesse no *${title}*. Gostaria de saber opções de cores/tecidos e o prazo de entrega para o Rio de Janeiro.`);
         const whatsappHref = `${WHATSAPP_BASE_URL}?text=${encodedMsg}`;
         
-        // Botão sem o número visível no texto:
-        const ctaBtnHTML = `<a href="${whatsappHref}" class="btn-whatsapp-cta" data-product-name="${safeTitle}" title="Chame no WhatsApp agora" target="_blank" rel="noopener noreferrer">${WHATSAPP_ICON_SVG}<span>Chame no WhatsApp</span></a>`;
+        // Botão sem o número visível no texto com CTA persuasivo:
+        const ctaBtnHTML = `<a href="${whatsappHref}" class="btn-whatsapp-cta" data-product-name="${safeTitle}" title="Consultar no WhatsApp agora" target="_blank" rel="noopener noreferrer">${WHATSAPP_ICON_SVG}<span>Consultar no WhatsApp</span></a>`;
 
         // Substituição do bloco de preço e action
         let cleanCard = rawCard.replace(
@@ -540,12 +540,15 @@ function buildFooter() {
         ${WHATSAPP_FLOATING_ICON_SVG}
     </a>
 
-    <!-- SCRIPTS OFICIAIS RJ MÓVEIS (TELEMETRIA, TEMA, BUSCA, ORDENAÇÃO E PAGINAÇÃO) -->
+    <!-- SCRIPTS OFICIAIS RJ MÓVEIS (TELEMETRIA, TEMA, MODAL, BUSCA, ORDENAÇÃO, PAGINAÇÃO E CRO) -->
     <script src="js/analytics.js"></script>
     <script src="js/theme-toggle.js"></script>
-    <script src="js/catalog-search.js"></script>
+    <script src="js/products-data.js"></script>
+    <script src="js/product-modal.js"></script>
     <script src="js/catalog-sort.js"></script>
     <script src="js/catalog-pagination.js"></script>
+    <script src="js/catalog-search.js"></script>
+    <script src="js/cro-enhancements.js"></script>
 </body>`;
 }
 

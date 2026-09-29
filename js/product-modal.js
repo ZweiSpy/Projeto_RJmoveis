@@ -187,6 +187,25 @@
                                     </svg>
                                     <span>Chame no WhatsApp agora</span>
                                 </a>
+                                <a id="modal-frete-link" href="#" target="_blank" rel="noopener noreferrer" class="btn-modal-frete">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                                    <span>Simular Frete &amp; Prazo no WhatsApp</span>
+                                </a>
+                            </div>
+
+                            <div class="modal-trust-badges">
+                                <div class="modal-trust-item">
+                                    <span class="trust-icon">🚚</span>
+                                    <div class="trust-text"><strong>Entrega Cuidadosa</strong><span>Rio de Janeiro &amp; Região</span></div>
+                                </div>
+                                <div class="modal-trust-item">
+                                    <span class="trust-icon">🎨</span>
+                                    <div class="trust-text"><strong>Cores &amp; Tecidos</strong><span>Consulte opções com o consultor</span></div>
+                                </div>
+                                <div class="modal-trust-item">
+                                    <span class="trust-icon">🤝</span>
+                                    <div class="trust-text"><strong>Atendimento Humano</strong><span>Especialistas direto no WhatsApp</span></div>
+                                </div>
                             </div>
 
                             <div class="product-modal-desc-box">
@@ -209,6 +228,7 @@
             galleryThumbs: document.getElementById('modal-gallery-thumbs'),
             title: document.getElementById('modal-title'),
             whatsappLink: document.getElementById('modal-whatsapp-link'),
+            freteLink: document.getElementById('modal-frete-link'),
             descContent: document.getElementById('modal-desc-content')
         };
 
@@ -249,9 +269,15 @@
         // Configurar Título
         elems.title.textContent = currentProduct.title;
 
-        // Configurar Link do WhatsApp com mensagem personalizada
-        const msg = encodeURIComponent(`Olá! Gostaria de mais informações sobre o produto: ${currentProduct.title}`);
-        elems.whatsappLink.href = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${msg}`;
+        // Configurar Link Principal do WhatsApp com Copywriting Persuasivo
+        const msgWhats = encodeURIComponent(`Olá, equipe RJ Móveis! Me encantei pelo *${currentProduct.title}* no catálogo oficial. Gostaria de consultar opções de cores de tecido, prazo de entrega para meu CEP e condições. Poderiam me atender?`);
+        elems.whatsappLink.href = `https://wa.me/${WHATSAPP_PHONE}?text=${msgWhats}`;
+
+        // Configurar Link Secundário de Simulação de Frete
+        if (elems.freteLink) {
+            const msgFrete = encodeURIComponent(`Olá! Gostaria de simular o frete e prazo de entrega para o produto: *${currentProduct.title}*. Meu CEP/bairro é: `);
+            elems.freteLink.href = `https://wa.me/${WHATSAPP_PHONE}?text=${msgFrete}`;
+        }
 
         // Resetar player de vídeo
         elems.videoBox.innerHTML = '';

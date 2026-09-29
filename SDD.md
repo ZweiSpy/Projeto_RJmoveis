@@ -416,7 +416,35 @@ Cada página incorpora 4 blocos de metadados semânticos interligados:
 3. **`BreadcrumbList`:** Estrutura navegável de migalhas de pão com rastreamento posicional.
 4. **`FAQPage` (Answer Engine Optimization):** Perguntas e respostas objetivas projetadas para serem citadas diretamente pelas respostas sintetizadas de IAs generativas.
 
+---
 
+## 16. CRO Conversion Suite — Otimização de Taxa de Conversão WhatsApp
 
+Para maximizar as conversões sem violar as restrições inegociáveis (zero exibição de preços, títulos preservados, integridade do catálogo), foi implementada uma suíte integrada de 5 pilares de CRO:
 
+### 16.1. Pilar 1: Smart Floating WhatsApp Chat Bubble (`js/cro-enhancements.js`)
+- **Proatividade Humanizada:** Um balão de atendimento flutuante (`#rj-whatsapp-bubble`) é injetado diretamente acima do FAB pulsante do WhatsApp.
+- **Farol de Atividade:** Exibe o status *"🟢 Online agora"* com animação de beacon pulsante (`@keyframes beacon-pulse`), simulando a presença de um consultor em tempo real.
+- **Gatilho Inteligente:** Disparado de maneira não intrusiva após 3.5 segundos de visita ou após 25% de rolagem da página.
+- **Respeito à Experiência:** Inclui botão de fechar (`×`) com persistência em `sessionStorage` (`rj_bubble_dismissed`), evitando reaberturas indesejadas na mesma sessão.
 
+### 16.2. Pilar 2: Recuperação de Busca Vazia (Zero-Results CRO) (`js/catalog-search.js`)
+- **Atendimento Sob Demanda:** Caso uma consulta não encontre resultados exatos no catálogo ou no dropdown de sugestões, o usuário não se depara com um beco sem saída.
+- **Card Persuasivo:** Exibe o card `.rj-search-empty-cro` informando que a fábrica trabalha com dezenas de outros modelos e medidas sob encomenda, com botão verde direto para o WhatsApp contendo a mensagem contextualizada: `Olá! Estava buscando por "${query}" no site...`.
+- **Micro-link no Rodapé:** No rodapé do dropdown de resultados, um link contínuo permite contatar a fábrica diretamente: *"Procura outro modelo? Fale com a fábrica no WhatsApp →"*.
+
+### 16.3. Pilar 3: Trust Badges & Simulação de Frete no Modal (`js/product-modal.js`)
+- **Botão Secundário de Frete:** Adicionado o botão `#modal-frete-link` ("Simular Frete & Prazo no WhatsApp") que monta a mensagem pronta com o nome do produto para cotação de frete e prazo no CEP do cliente.
+- **3 Selos de Confiança (Trust Badges):**
+  1. *🚚 Entrega Cuidadosa:* Especializada para o Rio de Janeiro & Região Metropolitana.
+  2. *🎨 Cores & Tecidos:* Opções sob consulta com os consultores.
+  3. *🤝 Atendimento Humano:* Consultoria direta com especialistas no WhatsApp.
+
+### 16.4. Pilar 4: Barra Fixa Mobile de Ação Rápida (Sticky Mobile CRO Bar)
+- **Ergonomia Móvel:** Em telas móveis (`@media (max-width: 768px)`), ativa a barra `#rj-mobile-sticky-bar` com botão expandido `💬 Chamar no WhatsApp • Resposta Rápida` e atalho para o Catálogo.
+- **Compensação Inferior:** O body recebe `padding-bottom: 64px !important`, garantindo que nenhum rodapé ou card seja cortado pela barra fixa.
+
+### 16.5. Pilar 5: Copywriting Persuasivo com Negrito no WhatsApp
+- **Qualificação de Leads:** Os 1.561 botões de produtos nas 8 páginas foram convertidos para a mensagem estruturada com formatação nativa do WhatsApp em negrito:
+  `Olá, equipe RJ Móveis! Tenho interesse no *{Nome do Móvel}*. Gostaria de saber opções de cores/tecidos e o prazo de entrega para o Rio de Janeiro.`
+- **Microcópia de Botão:** Todos os cards adotam o rótulo focado em ação e exclusividade: `Consultar no WhatsApp`.

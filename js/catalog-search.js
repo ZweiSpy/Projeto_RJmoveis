@@ -171,15 +171,17 @@
             const cleanTerms = normalizeText(query).split(/\s+/).filter(w => w.length > 0);
 
             if (currentSuggestions.length === 0) {
+                const searchMsg = encodeURIComponent(`Olá, equipe RJ Móveis! Estava buscando por "${query}" no site e gostaria de saber se vocês têm opções desse modelo disponíveis na fábrica ou sob encomenda.`);
                 suggestionsDropdown.innerHTML = `
-                    <div class="rj-search-empty">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            <line x1="8" y1="11" x2="14" y2="11"></line>
-                        </svg>
-                        <span>Nenhum móvel encontrado para "<strong>${escapeHtml(query)}</strong>".</span>
-                        <div class="rj-search-empty-hints">Sugestões: Sofá retrátil, Mesa de jantar, Cômoda, Balcão de cozinha</div>
+                    <div class="rj-search-empty rj-search-empty-cro-dropdown">
+                        <span class="rj-empty-cro-tag">Atendimento Exclusivo Sob Demanda</span>
+                        <div class="rj-empty-cro-title">Não encontrou o modelo exato para "<strong>${escapeHtml(query)}</strong>"?</div>
+                        <p class="rj-empty-cro-desc">Temos dezenas de outros modelos, medidas e tecidos disponíveis diretamente na fábrica com entrega rápida no Rio de Janeiro!</p>
+                        <a href="https://wa.me/5521994990764?text=${searchMsg}" target="_blank" rel="noopener noreferrer" class="btn-dropdown-cro-whatsapp">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                            Consultar este modelo na Fábrica via WhatsApp
+                        </a>
+                        <div class="rj-search-empty-hints">Ou tente buscar por: Sofá retrátil, Mesa de jantar, Roupeiro, Painel TV</div>
                     </div>
                 `;
                 suggestionsDropdown.style.display = 'block';
@@ -210,14 +212,21 @@
 
             html += `</div>`;
 
-            // Rodapé do Dropdown
+            // Rodapé do Dropdown com Ação de CRO Proativa
+            const askMsg = encodeURIComponent(`Olá! Estava navegando na busca por "${query}" e gostaria de consultar outros modelos disponíveis.`);
             html += `
-                <div class="rj-search-footer" id="rj-search-view-all">
-                    <span>Ver todos os <strong>${searchData.total}</strong> resultados no Catálogo Completo</span>
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
+                <div class="rj-search-footer-wrapper">
+                    <div class="rj-search-footer" id="rj-search-view-all">
+                        <span>Ver todos os <strong>${searchData.total}</strong> resultados no Catálogo</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+                    <a href="https://wa.me/5521994990764?text=${askMsg}" target="_blank" rel="noopener noreferrer" class="rj-search-footer-whatsapp-link">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                        <span>Procura outro modelo? Fale com a fábrica no WhatsApp →</span>
+                    </a>
                 </div>
             `;
 
@@ -349,9 +358,20 @@
 
             feedbackEl.style.display = 'flex';
             if (visibleCount === 0) {
+                const searchMsg = encodeURIComponent(`Olá, equipe RJ Móveis! Estava pesquisando por "${term}" no catálogo e gostaria de saber se vocês possuem modelos similares sob encomenda.`);
                 feedbackEl.innerHTML = `
-                    <span>Nenhum móvel encontrado no catálogo para "<strong>${escapeHtml(term)}</strong>".</span>
-                    <button type="button" class="btn-clear-search" id="btn-reset-search">Limpar busca e ver todos</button>
+                    <div class="rj-search-empty-cro">
+                        <span class="rj-empty-cro-badge">Atendimento Sob Encomenda</span>
+                        <h4 class="rj-empty-cro-heading">Não encontrou o modelo exato para "<strong>${escapeHtml(term)}</strong>"?</h4>
+                        <p class="rj-empty-cro-text">Trabalhamos direto com os maiores fabricantes. Fale agora com nossa equipe para consultar medidas especiais, tecidos e cores disponíveis para entrega no Rio de Janeiro!</p>
+                        <div class="rj-empty-cro-actions">
+                            <a href="https://wa.me/5521994990764?text=${searchMsg}" target="_blank" rel="noopener noreferrer" class="btn-cro-whatsapp">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                                <span>Consultar este modelo na Fábrica via WhatsApp</span>
+                            </a>
+                            <button type="button" class="btn-clear-search" id="btn-reset-search">Limpar busca e ver catálogo completo</button>
+                        </div>
+                    </div>
                 `;
                 const resetBtn = document.getElementById('btn-reset-search');
                 if (resetBtn) {
