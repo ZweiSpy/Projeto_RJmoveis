@@ -448,3 +448,34 @@ Para maximizar as conversões sem violar as restrições inegociáveis (zero exi
 - **Qualificação de Leads:** Os 1.561 botões de produtos nas 8 páginas foram convertidos para a mensagem estruturada com formatação nativa do WhatsApp em negrito:
   `Olá, equipe RJ Móveis! Tenho interesse no *{Nome do Móvel}*. Gostaria de saber opções de cores/tecidos e o prazo de entrega para o Rio de Janeiro.`
 - **Microcópia de Botão:** Todos os cards adotam o rótulo focado em ação e exclusividade: `Consultar no WhatsApp`.
+
+---
+
+## 17. Integração Vercel Web Analytics & Speed Insights
+
+Para aplicações estáticas de alta velocidade, a telemetria da Vercel opera de forma assíncrona e desacoplada da thread principal:
+
+### 17.1. Stubs Assíncronos & Fila de Eventos
+- O `<head>` de todas as páginas inicializa os stubs oficiais da Vercel antes de qualquer script pesado:
+  ```html
+  <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  ```
+- **Zero Latência:** Chamadas a `window.va('event', ...)` feitas por `js/analytics.js` nunca falham nem atrasam a renderização: se o script da Edge Network ainda não terminou de baixar, o evento é enfileirado em `window.vaq` e processado imediatamente assim que o script é montado.
+
+### 17.2. Eventos Customizados de Conversão no WhatsApp
+- Além de visualizações de página, a Vercel registra os eventos de conversão comercial:
+  - `name: 'whatsapp_click'`
+  - `data.product`: Nome exato do móvel consultado.
+  - `data.location`: Local de origem do clique (`card_produto`, `modal_detalhes`, `barra_mobile`, `balao_flutuante`, `cabecalho`, `rodape`).
+  - `data.page`: URL da página de origem.
+
+### 17.3. Configuração de Deploy (`vercel.json`)
+- Habilita `cleanUrls: true` para rotas limpas sem `.html`.
+- Define políticas de cache imutável (`Cache-Control: public, max-age=31536000, immutable`) para ativos estáticos com hash/versão (`.js`, `.css`, `.png`, `.jpg`, `.svg`).
+- Aplica cabeçalhos de segurança HTTP (`X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection`).
+

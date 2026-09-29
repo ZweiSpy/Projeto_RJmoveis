@@ -5,8 +5,12 @@
 window.RJ_ANALYTICS_CONFIG = window.RJ_ANALYTICS_CONFIG || {
     googleAnalyticsId: '', // Exemplo: 'G-XXXXXXXXXX' (Google Analytics 4 / GA4)
     metaPixelId: '',       // Exemplo: '123456789012345' (Meta Pixel / Facebook & Instagram)
-    vercelAnalytics: true  // Habilitado por padrão. Se hospedado na Vercel, ativa via window.va
+    vercelAnalytics: true  // Habilitado por padrão. Auto-ativação Vercel Web Analytics
 };
+
+// Inicialização imediata dos stubs assíncronos oficiais da Vercel (Web Analytics & Speed Insights)
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 
 (function(window, document) {
     'use strict';

@@ -360,3 +360,13 @@ Este documento serve como o plano de execução ativo para o desenvolvimento e t
   - **Validação Automatizada:**
     - Criada e aprovada a suíte `tests/test_cro_whatsapp_conversions.js` com 15 asserções (100% PASS).
     - Aprovadas todas as suítes de regressão do projeto com 0 falhas.
+- **2026-09-28 / 2026-09-29 (Ativação do Vercel Web Analytics & Speed Insights):**
+  - **Configuração de Deploy (`vercel.json`):**
+    - Criado `vercel.json` na raiz com `cleanUrls: true`, cache imutável de 1 ano para assets estáticos e headers de segurança HTTP (`nosniff`, `SAMEORIGIN`, `xss-protection`).
+  - **Injeção de Stubs e Scripts Oficiais:**
+    - Injetados os stubs assíncronos oficiais da Vercel (`window.va` e `window.si`) e as tags `<script defer src="/_vercel/insights/script.js">` e `<script defer src="/_vercel/speed-insights/script.js">` no `<head>` de todas as 8 páginas e no template de build `scripts/build_all_catalog_pages.js`.
+  - **Despacho de Eventos Customizados (`js/analytics.js`):**
+    - Inicialização preventiva de `window.va` e `window.si` no topo de `js/analytics.js` para garantir que chamadas à Vercel funcionem mesmo antes do download assíncrono do script externo.
+    - Envio de eventos nativos de `pageview` e `whatsapp_click` com dados do produto, localização do botão e caminho da página.
+  - **Validação Automatizada:**
+    - Criada e aprovada a suíte `tests/test_vercel_analytics.js` com 7 asserções cobrindo o JSON de configuração, os scripts nas 8 páginas e o enfileiramento em `window.vaq` (100% PASS).
