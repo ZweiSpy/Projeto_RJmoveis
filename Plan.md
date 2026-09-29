@@ -384,4 +384,10 @@ Este documento serve como o plano de execução ativo para o desenvolvimento e t
   - **Validação Automatizada:**
     - Criada e aprovada a suíte `tests/test_responsiveness_audit.js` com 64 asserções cobrindo todas as páginas e componentes (100% PASS).
     - Executada regressão completa com `tests/test_vercel_analytics.js` (7/7 PASS) e `scratch/verify_final_integrity.js` (100% PASS).
+  - **Blindagem Contra Cache & CSS Crítico Inline (2026-09-29):**
+    - Corrigido `vercel.json` ajustando `Cache-Control` de CSS/JS para `public, max-age=0, must-revalidate` (eliminando bloqueio de cache de 1 ano que congelava o layout em smartphones).
+    - Injetado bloco `<style id="rj-mobile-critical-css">` inline diretamente no `<head>` das 8 páginas oficiais, garantindo renderização instantânea do menu hambúrguer e da busca de 100% no exato milissegundo de carregamento do HTML.
+    - Aplicado cache-busting versionado (`?v=2.2.0`) em todas as tags de CSS e scripts das 8 páginas oficiais.
+    - Suíte `tests/test_responsiveness_audit.js` expandida para 89 testes automatizados com 100% de aprovação (89/89 PASS).
+
 

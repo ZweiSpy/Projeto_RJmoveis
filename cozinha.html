@@ -6547,8 +6547,203 @@
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
     <!-- Estilos Oficiais RJ Móveis & Design Tokens (Elegance Blue) -->
-    <link rel="stylesheet" href="css/tokens.css">
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/tokens.css?v=2.2.0">
+    <link rel="stylesheet" href="css/custom.css?v=2.2.0">
+    <!-- ==================================================================== -->
+    <!-- CSS CRÍTICO MOBILE INLINE (IMUNIDADE TOTAL A CACHE & ZERO LATÊNCIA) -->
+    <!-- ==================================================================== -->
+    <style id="rj-mobile-critical-css">
+        #rj-mobile-menu-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background-color: var(--color-bg-card, #ffffff);
+            border: 1.5px solid var(--color-border-subtle, #e2e8f0);
+            border-radius: var(--radius-sm, 8px);
+            color: var(--color-primary-navy, #1e293b);
+            cursor: pointer;
+            padding: 0;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        #rj-mobile-menu-toggle:hover {
+            background-color: #f1f5f9;
+            border-color: var(--color-accent-bronze, #b45309);
+            color: var(--color-accent-bronze, #b45309);
+        }
+
+        #rj-mobile-menu-toggle svg {
+            width: 24px;
+            height: 24px;
+            display: block;
+        }
+
+        .rj-drawer-backdrop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 99998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .rj-drawer-backdrop.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .rj-mobile-drawer {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 320px;
+            max-width: 86vw;
+            background-color: #ffffff;
+            z-index: 99999;
+            box-shadow: 8px 0 32px rgba(15, 23, 42, 0.25);
+            display: flex;
+            flex-direction: column;
+            transform: translate3d(-100%, 0, 0);
+            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        .rj-mobile-drawer.is-open {
+            transform: translate3d(0, 0, 0);
+        }
+
+        body.rj-drawer-open {
+            overflow: hidden !important;
+            touch-action: none !important;
+        }
+
+        @media (max-width: 992px) {
+            #rj-mobile-menu-toggle {
+                display: flex !important;
+            }
+
+            .rj-header-main {
+                flex-wrap: wrap !important;
+                padding: 12px 16px !important;
+                gap: 10px !important;
+                justify-content: space-between !important;
+            }
+
+            .rj-brand-logo {
+                order: 1 !important;
+                flex: 0 0 auto !important;
+            }
+
+            .rj-header-action {
+                order: 2 !important;
+                gap: 8px !important;
+                display: flex !important;
+                align-items: center !important;
+            }
+
+            .rj-theme-toggle-header .theme-text-dark,
+            .rj-theme-toggle-header .theme-text-light {
+                display: none !important;
+            }
+
+            .rj-theme-toggle-header {
+                padding: 10px !important;
+                width: 44px !important;
+                height: 44px !important;
+                justify-content: center !important;
+                border-radius: var(--radius-sm, 8px) !important;
+            }
+
+            .rj-search-box {
+                order: 3 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 1 1 100% !important;
+                margin: 4px 0 0 0 !important;
+            }
+
+            .rj-search-box form {
+                width: 100% !important;
+            }
+
+            .rj-search-box input {
+                height: 44px !important;
+                font-size: 0.9rem !important;
+                padding: 0 46px 0 16px !important;
+            }
+
+            .rj-search-suggestions {
+                width: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                max-height: calc(75vh - 100px) !important;
+                border-radius: 12px !important;
+                box-shadow: 0 16px 36px rgba(15, 23, 42, 0.2) !important;
+            }
+
+            .rj-navbar {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .rj-header-action .rj-btn-direct-whats {
+                display: none !important;
+            }
+
+            .rj-whatsapp-bubble {
+                display: none !important;
+            }
+
+            .btn-whatsapp-floating {
+                bottom: 76px !important;
+                right: 16px !important;
+                width: 52px !important;
+                height: 52px !important;
+                z-index: 99999 !important;
+                pointer-events: auto !important;
+            }
+
+            .btn-whatsapp-floating::before,
+            .btn-whatsapp-floating::after {
+                pointer-events: none !important;
+            }
+
+            .btn-whatsapp-floating .whatsapp-floating-icon {
+                width: 28px !important;
+                height: 28px !important;
+                pointer-events: none !important;
+            }
+        }
+
+        [data-theme="dark"] #rj-mobile-menu-toggle {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        [data-theme="dark"] #rj-mobile-menu-toggle:hover {
+            background-color: #334155;
+            border-color: #fbbf24;
+            color: #fbbf24;
+        }
+
+        [data-theme="dark"] .rj-mobile-drawer {
+            background-color: #0f172a;
+            box-shadow: 8px 0 32px rgba(0, 0, 0, 0.7);
+        }
+    </style>
+
 </head>
 
 <body itemscope="" itemtype="https://schema.org/WebPage">
@@ -13822,15 +14017,15 @@
     </a>
 
     <!-- SCRIPTS OFICIAIS RJ MÓVEIS (TELEMETRIA, TEMA, BUSCA, ORDENAÇÃO E PAGINAÇÃO) -->
-    <script src="js/analytics.js"></script>
-    <script src="js/theme-toggle.js"></script>
+    <script src="js/analytics.js?v=2.2.0"></script>
+    <script src="js/theme-toggle.js?v=2.2.0"></script>
     <script src="js/products-data.js"></script>
-    <script src="js/product-modal.js"></script>
-    <script src="js/catalog-sort.js"></script>
-    <script src="js/catalog-pagination.js"></script>
-    <script src="js/catalog-search.js"></script>
-    <script src="js/cro-enhancements.js"></script>
-    <script src="js/mobile-drawer.js"></script>
+    <script src="js/product-modal.js?v=2.2.0"></script>
+    <script src="js/catalog-sort.js?v=2.2.0"></script>
+    <script src="js/catalog-pagination.js?v=2.2.0"></script>
+    <script src="js/catalog-search.js?v=2.2.0"></script>
+    <script src="js/cro-enhancements.js?v=2.2.0"></script>
+    <script src="js/mobile-drawer.js?v=2.2.0"></script>
 </body>
 
 </html>

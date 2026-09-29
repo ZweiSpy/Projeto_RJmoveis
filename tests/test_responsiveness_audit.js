@@ -100,6 +100,21 @@ pages.forEach(p => {
     assert(hasWhats, `${p} preserva número oficial do WhatsApp (+55 21 99499-0764)`);
 });
 
+// --- TESTE 6: Blindagem Contra Cache e CSS Crítico Mobile ---
+console.log('\n🛡️ Teste 6: Blindagem Contra Cache & CSS Crítico Mobile Inline');
+const vercelConfig = JSON.parse(fs.readFileSync('vercel.json', 'utf8'));
+const hasCssJsRevalidate = vercelConfig.headers.some(h => 
+    h.source.includes('css|js') && h.headers.some(hdr => hdr.key === 'Cache-Control' && hdr.value.includes('must-revalidate'))
+);
+assert(hasCssJsRevalidate, 'vercel.json possui regra de revalidação imediata (must-revalidate) para CSS e JS');
+
+pages.forEach(p => {
+    const html = fs.readFileSync(p, 'utf8');
+    assert(html.includes('id="rj-mobile-critical-css"'), `${p} contém CSS Crítico Mobile Inline (<style id="rj-mobile-critical-css">)`);
+    assert(html.includes('css/custom.css?v=2.2.0'), `${p} versionado com cache-busting v=2.2.0 em custom.css`);
+    assert(html.includes('js/mobile-drawer.js?v=2.2.0'), `${p} versionado com cache-busting v=2.2.0 em mobile-drawer.js`);
+});
+
 // --- RESUMO FINAL ---
 console.log('\n====================================================================');
 console.log(`📊 RESULTADO DA AUDITORIA: ${passedTests}/${totalTests} TESTES APROVADOS (${Math.round((passedTests / totalTests) * 100)}%)`);
@@ -112,3 +127,4 @@ if (passedTests === totalTests) {
     console.error('⚠️ ALGUNS TESTES FALHARAM. REVISAR ACIMA.');
     process.exit(1);
 }
+
