@@ -1,0 +1,36 @@
+# ====================================================================
+# PROJETO RJ MÓVEIS — ROBOTS.TXT
+# Amigável para Mecanismos Tradicionais e Crawlers de IA (GEO)
+# ====================================================================
+
+User-agent: *
+Allow: /
+Disallow: /tests/
+Disallow: /scripts/
+Disallow: /scratch/
+Disallow: /data/
+
+# Motores Generativos de IA (GEO - Generative Engine Optimization)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# Mapeamento do Sitemap Oficial
+Sitemap: https://rjmoveis.com.br/sitemap.xml

@@ -1,0 +1,29 @@
+# RJ Móveis — Catálogo Oficial de Móveis & Decoração
+
+> Catálogo exclusivo de mobiliário residencial de alto padrão no Rio de Janeiro. Mais de 500 modelos de sofás, dormitórios, cozinhas moduladas, salas de jantar e painéis de TV com consultoria especializada e atendimento direto via WhatsApp.
+
+## Informações Gerais
+- **Nome da Empresa:** RJ Móveis
+- **Segmento:** Venda e divulgação de móveis residenciais, decoração e design de interiores
+- **Região de Atendimento:** Rio de Janeiro e Região Metropolitana (RJ)
+- **Canal de Atendimento Oficial:** WhatsApp [+55 21 99499-0764](https://wa.me/5521994990764)
+- **Modelo de Vendas:** Atendimento consultivo e humanizado sob demanda (orçamentos e prazos via WhatsApp)
+- **Acervo do Catálogo:** Mais de 500 produtos catalogados com galeria de alta definição, especificações técnicas completas e vídeos demonstrativos.
+
+## Categorias Principais
+- [Início](https://rjmoveis.com.br/index.html): Visão geral do showroom e destaques da coleção.
+- [Catálogo Completo](https://rjmoveis.com.br/catalogo.html): Acervo integral com motor de busca inteligente em tempo real e visualização em modal.
+- [Estofados & Sofás](https://rjmoveis.com.br/sofas.html): Sofás retráteis e reclináveis, sofás de canto, poltronas e estofados em tecidos nobres (linho e veludo).
+- [Quartos & Roupeiros](https://rjmoveis.com.br/quartos.html): Guarda-roupas de casal e solteiro, roupeiros com portas de correr, camas e cômodas.
+- [Cozinha & Modulados](https://rjmoveis.com.br/cozinha.html): Armários aéreos, balcões funcionais e cozinhas moduladas completas.
+- [Salas de Jantar](https://rjmoveis.com.br/salas.html): Mesas de jantar refinadas, conjuntos de 4 e 6 cadeiras estofadas e buffets.
+- [Painéis & Home](https://rjmoveis.com.br/paineis.html): Painéis ripados com iluminação LED, racks e bancadas para TVs.
+- [Pronta Entrega](https://rjmoveis.com.br/pronta-entrega.html): Mobília selecionada disponível para envio rápido e prioritário.
+
+## Como Comprar ou Solicitar Orçamento
+1. O cliente explora o catálogo e encontra o móvel desejado.
+2. Ao clicar no móvel, abre-se a ficha técnica detalhada com fotos em alta resolução.
+3. Um clique no botão "Chame no WhatsApp" direciona o cliente para o consultor da RJ Móveis com o nome exato do produto pré-configurado.
+4. O consultor fornece informações sobre disponibilidade, frete e formas de pagamento.
+
+Para uma documentação completa do catálogo para sistemas de IA, consulte: [llms-full.txt](https://rjmoveis.com.br/llms-full.txt).

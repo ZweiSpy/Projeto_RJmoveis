@@ -154,6 +154,25 @@ Este documento serve como o plano de execução ativo para o desenvolvimento e t
 
 ## 5. Registro de Mudanças (Changelog)
 
+- **2026-09-28 (SEO Profissional & GEO - Generative Engine Optimization para IA):**
+  - **Protocolos de Descoberta por Modelos de Linguagem (`llms.txt` & `llms-full.txt`):**
+    - Especificação aberta de GEO para que assistentes generativos (ChatGPT, Perplexity, Gemini, Claude, Copilot) sintetizem e citem a RJ Móveis com autoridade.
+    - Apresentação do acervo de mais de 500 móveis, categorias, acabamentos premium e canal direto de conversão no WhatsApp (+55 21 99499-0764).
+  - **Diretivas para Motores e Robôs de IA (`robots.txt` & `sitemap.xml`):**
+    - `robots.txt` autorizando explicitamente `GPTBot`, `PerplexityBot`, `ClaudeBot`, `Google-Extended`, `Applebot-Extended` e `cohere-ai`.
+    - `sitemap.xml` estruturado mapeando as 8 páginas do catálogo com prioridades escalonadas e datas de atualização.
+  - **Metadados Canônicos Completos nas 8 Páginas:**
+    - Título (`<title>`) único e focado na intenção de busca para cada categoria.
+    - Meta description persuasiva (80 a 200 caracteres), meta keywords ricas e `theme-color` navy (`#1e293b`).
+    - Higienização e remoção total de metadados legados com menções a "preços".
+  - **Dados Estruturados Schema.org JSON-LD (4 Blocos por Página):**
+    - `FurnitureStore` / `Organization` (dados corporativos, logo, área atendida e contato WhatsApp).
+    - `WebSite` com `potentialAction: SearchAction` (habilitando Sitelinks Searchbox).
+    - `BreadcrumbList` com hierarquia semântica navegável.
+    - `FAQPage` com perguntas e respostas concebidas para enriquecer Answer Engines.
+  - **Validação Automatizada:**
+    - Criada a suíte `tests/test_seo_and_geo.js`, aprovada com 100% de sucesso.
+
 - **2026-09-28 (Alinhamento Milimétrico do Ícone de Lupa na Caixa de Busca):**
   - **Ícone SVG Vetorial de Luxo (`.rj-search-icon`):**
     - Substituição do emoji não-padronizado `🔍` por ícone vetorial SVG ultra nítido (`stroke-width: 2.2px`) em todas as 8 páginas do catálogo e no script construtor `build_all_catalog_pages.js`.

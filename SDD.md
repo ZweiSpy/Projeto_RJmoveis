@@ -388,6 +388,35 @@ O script centraliza a telemetria em um único arquivo modular, com auto-carregam
 - **Design & Dark Mode:** Estilizado em `css/custom.css` com backdrop blur, bordas suaves, sombras profundas e contraste balanceado para o tema claro e escuro (`[data-theme="dark"]`).
 - **Alinhamento do Ícone de Lupa (SVG Vetorial):** Substituição de emojis não-padronizados por SVG vetorial nítido (`24x24`, stroke `2.2px`), posicionado no canto direito interno do input (`right: 6px; top: 50%; transform: translateY(-50%)`) com botão circular ergonômico de 34x34px, microinteração hover/active, respiro de 46px no input para impedir sobreposição de texto digitado e redundância de submissão via submit/click.
 
+---
+
+## 15. Arquitetura de SEO Profissional & GEO (Generative Engine Optimization para IA)
+
+Para assegurar descoberta ativa tanto em buscadores clássicos (Google, Bing) quanto em motores de busca generativa e agentes de IA (ChatGPT Search, Perplexity AI, Google Gemini, Claude e Microsoft Copilot), a aplicação adota uma arquitetura em 4 camadas:
+
+### 15.1. Protocolo de Descoberta para LLMs (`llms.txt` e `llms-full.txt`)
+- Implementação da especificação de ponta para IAs (`/llms.txt` e `/llms-full.txt` na raiz).
+- Sintetiza a entidade **RJ Móveis**, catálogo com mais de 500 móveis, categorias, diferenciais construtivos e orientações para modelos de linguagem indicarem o canal oficial de WhatsApp (+55 21 99499-0764) sem expor preços fixos.
+
+### 15.2. Diretivas de Rastreamento & Indexação (`robots.txt` e `sitemap.xml`)
+- `robots.txt`: Permissão explícita para agentes generativos (`GPTBot`, `PerplexityBot`, `ClaudeBot`, `Google-Extended`, `Applebot-Extended`, `cohere-ai`), bloqueando apenas diretórios de desenvolvimento/testes e mapeando o sitemap.
+- `sitemap.xml`: Protocolo padrão sitemaps.org com UTF-8, cobrindo as 8 páginas com canonicalidade e prioridades escalonadas.
+
+### 15.3. Metadados Semânticos Canônicos
+- Remoção definitiva de tags legadas com menções a "preços".
+- `<title>` único e personalizado por categoria.
+- `<meta name="description">` persuasiva e otimizada (80 a 200 caracteres) sem menções financeiras.
+- `<meta name="keywords">` com termos de cauda longa e intenção de compra.
+- `<meta name="theme-color" content="#1e293b">` para personalização do navegador mobile.
+
+### 15.4. Grafo de Conhecimento Estruturado (Schema.org JSON-LD)
+Cada página incorpora 4 blocos de metadados semânticos interligados:
+1. **`FurnitureStore` / `Organization`:** Identidade corporativa, logotipo, área geográfica de atendimento (Rio de Janeiro e Região Metropolitana) e ponto de contato de WhatsApp.
+2. **`WebSite` com `potentialAction: SearchAction`:** Conecta a busca interna da RJ Móveis ao recurso Sitelinks Searchbox do Google.
+3. **`BreadcrumbList`:** Estrutura navegável de migalhas de pão com rastreamento posicional.
+4. **`FAQPage` (Answer Engine Optimization):** Perguntas e respostas objetivas projetadas para serem citadas diretamente pelas respostas sintetizadas de IAs generativas.
+
+
 
 
 
