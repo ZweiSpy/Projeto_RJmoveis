@@ -39,6 +39,8 @@ Projeto_MeusMoveis/
 │   ├── catalog-search.js         # Busca instantânea em tempo real no catálogo
 │   ├── catalog-sort.js           # Motor de ordenação dinâmica instantânea (Mais vendidos, Lançamentos, A-Z)
 │   ├── catalog-pagination.js     # Paginação instantânea no cliente com seletor de limite por página
+│   ├── cro-enhancements.js       # Motor de CRO, barra fixa mobile e gestão do FAB
+│   ├── mobile-drawer.js          # Gerenciador de navegação off-canvas para smartphones e tablets
 │   └── analytics.js              # Telemetria multicanal (GA4, Meta Pixel, Vercel Analytics)
 │
 ├── scripts/
@@ -478,4 +480,25 @@ Para aplicações estáticas de alta velocidade, a telemetria da Vercel opera de
 - Habilita `cleanUrls: true` para rotas limpas sem `.html`.
 - Define políticas de cache imutável (`Cache-Control: public, max-age=31536000, immutable`) para ativos estáticos com hash/versão (`.js`, `.css`, `.png`, `.jpg`, `.svg`).
 - Aplica cabeçalhos de segurança HTTP (`X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection`).
+
+---
+
+## 18. Arquitetura de Responsividade Inteligente (Smartphones & Tablets)
+
+Para superar os desafios de telas menores sem impactar o layout Desktop (`>= 993px`), o sistema adota princípios de **Progressive Enhancement** e **Mobile-First UX**:
+
+### 18.1. Cabeçalho Adaptativo de Duas Linhas (`<= 992px`)
+- **Linha 1 (Navegação & Marca):** Monograma `RJ` + `RJ MÓVEIS` compacto à esquerda; botão de tema (apenas ícone Sol/Lua) e botão do menu hambúrguer (`#rj-mobile-menu-toggle`) à direita.
+- **Linha 2 (Busca Panorâmica):** A barra de pesquisa (`.rj-search-box`) passa a ocupar **100% da largura útil da tela**, com input de 44px de altura e lupa alinhada à direita. O dropdown flutuante de sugestões em tempo real (`.rj-search-suggestions`) projeta-se na largura cheia da tela, permitindo visualização fluida de miniaturas, títulos e CTA de WhatsApp sem cortes.
+
+### 18.2. Off-Canvas Mobile Navigation Drawer
+- **Componente Nativo:** `#rj-mobile-drawer` acompanhado de `#rj-drawer-backdrop` com acabamento translúcido de luxo (*backdrop blur*).
+- **Acessibilidade:** Suporte completo a `aria-expanded`, tecla `ESC`, fechamento ao tocar no backdrop ou nos links de navegação.
+- **Trava de Scroll:** Adiciona `body.rj-drawer-open { overflow: hidden; }` para prevenir rolagem fantasma de fundo.
+- **Mapeamento:** Lista completa das 8 categorias com ícones visuais temáticos e card de contato WhatsApp com consultor no rodapé do drawer.
+
+### 18.3. Despoluição Visual & Operação Plena do FAB WhatsApp
+- **Despoluição:** Em smartphones (`<= 768px`), o balão proativo volumoso é desativado para priorizar a **Barra Sticky do Rodapé (`.rj-mobile-sticky-bar`)**, que oferece resposta rápida de 1 toque sem bloquear o catálogo.
+- **Isolamento do FAB:** O botão flutuante `.btn-whatsapp-floating` fica posicionado a `bottom: 76px; right: 16px;`, acima da barra fixa, com `pointer-events: none` em pseudo-elementos animados e listener nativo garantindo abertura imediata do WhatsApp oficial (+55 21 99499-0764).
+
 

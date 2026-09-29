@@ -3,9 +3,10 @@
  * cro-enhancements.js — RJ Móveis CRO Conversion Engine
  * ====================================================================
  * Implementação dos Pilares de Conversão:
- * 1. Smart Floating WhatsApp Chat Bubble (Balão proativo de atendimento)
- * 2. Sticky Mobile CRO Bar (Barra fixa mobile de resposta rápida)
- * 3. Integração com Telemetria e Persistência de Sessão
+ * 1. Smart Floating WhatsApp Chat Bubble (Balão proativo apenas para Desktop/Tablet)
+ * 2. Sticky Mobile CRO Bar (Barra fixa mobile de resposta rápida, sem poluição)
+ * 3. Botão Flutuante Pulsante FAB com toque direto garantido
+ * 4. Integração com Telemetria e Persistência de Sessão
  * ====================================================================
  */
 
@@ -16,17 +17,27 @@
     const SESSION_DISMISSED_KEY = 'rj_bubble_dismissed';
 
     function initCROEnhancements() {
-        // 1. Criar e Gerenciar o Balão Proativo de Atendimento (Pilar 1)
+        // 1. Criar e Gerenciar o Balão Proativo de Atendimento (Pilar 1 - apenas Desktop/Tablet)
         initWhatsAppBubble();
 
         // 2. Criar e Gerenciar a Barra Fixa Mobile (Pilar 4)
         initMobileStickyBar();
+
+        // 3. Garantir Operação Confiável do Botão Flutuante (FAB)
+        initWhatsAppFloatingHandler();
     }
 
     /**
      * Pilar 1: Smart Floating WhatsApp Chat Bubble
+     * Em smartphones (<= 768px), o balão volumoso é desativado para NÃO poluir
+     * a tela do usuário e priorizar a barra fixa limpa de rodapé.
      */
     function initWhatsAppBubble() {
+        // Desativa o balão intrusivo em telas menores que 768px (smartphones)
+        if (window.innerWidth <= 768) {
+            return;
+        }
+
         if (document.getElementById('rj-whatsapp-bubble')) return;
 
         // Se o usuário já dispensou nesta sessão de navegação, respeita a escolha
@@ -76,21 +87,22 @@
             });
         }
 
-        // Exibir após 3.5 segundos ou após scroll de 25%
+        // Exibir após 4 segundos ou após scroll de 25% (apenas Desktop/Tablet)
         let shown = false;
         function showBubble() {
             if (shown) return;
+            if (window.innerWidth <= 768) return;
             shown = true;
             bubble.classList.add('rj-bubble-visible');
         }
 
-        const timer = setTimeout(showBubble, 3500);
+        const timer = setTimeout(showBubble, 4000);
 
         function handleScroll() {
             const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
             if (scrollTotal > 300) {
                 const ratio = window.scrollY / scrollTotal;
-                if (ratio > 0.2) {
+                if (ratio > 0.25) {
                     showBubble();
                     clearTimeout(timer);
                     window.removeEventListener('scroll', handleScroll);
@@ -143,6 +155,31 @@
         `;
 
         document.body.appendChild(stickyBar);
+    }
+
+    /**
+     * Pilar 3: Operação Confiável do Botão Flutuante (FAB)
+     * Garante que toques no botão flutuante funcionem imediatamente em qualquer tela.
+     */
+    function initWhatsAppFloatingHandler() {
+        const floatingBtn = document.querySelector('.btn-whatsapp-floating');
+        if (!floatingBtn) return;
+
+        const targetUrl = 'https://wa.me/' + WHATSAPP_PHONE + '?text=' + encodeURIComponent('Olá! Estava no site da RJ Móveis e gostaria de atendimento via WhatsApp.');
+
+        // Se o atributo href estiver vazio, popula com a URL oficial
+        if (!floatingBtn.getAttribute('href')) {
+            floatingBtn.setAttribute('href', targetUrl);
+        }
+
+        // Listener explícito para toque em telas móveis e clique
+        floatingBtn.addEventListener('click', function (e) {
+            const href = floatingBtn.getAttribute('href') || targetUrl;
+            // Se por algum motivo o navegador tentar travar o redirecionamento
+            if (e.defaultPrevented) {
+                window.open(href, '_blank', 'noopener,noreferrer');
+            }
+        });
     }
 
     // Inicialização ao carregar o DOM

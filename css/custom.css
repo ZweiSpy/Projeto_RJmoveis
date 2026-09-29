@@ -3359,3 +3359,429 @@ body.modal-open {
     background: #334155;
     color: #f8fafc !important;
 }
+
+/* ====================================================================
+ * 8. RESPONSIVIDADE INTELIGENTE: SMARTPHONES & TABLETS (CRO MOBILE ENGINE)
+ * ==================================================================== */
+
+/* Botão Hambúrguer Mobile (Oculto no Desktop) */
+#rj-mobile-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background-color: var(--color-bg-card, #ffffff);
+    border: 1.5px solid var(--color-border-subtle, #e2e8f0);
+    border-radius: var(--radius-sm, 8px);
+    color: var(--color-primary-navy, #1e293b);
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+#rj-mobile-menu-toggle:hover {
+    background-color: #f1f5f9;
+    border-color: var(--color-accent-bronze, #b45309);
+    color: var(--color-accent-bronze, #b45309);
+}
+
+#rj-mobile-menu-toggle svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+/* Drawer Backdrop (Overlay escuro com blur) */
+.rj-drawer-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 99998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rj-drawer-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Mobile Off-Canvas Drawer */
+.rj-mobile-drawer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 320px;
+    max-width: 86vw;
+    background-color: #ffffff;
+    z-index: 99999;
+    box-shadow: 8px 0 32px rgba(15, 23, 42, 0.25);
+    display: flex;
+    flex-direction: column;
+    transform: translate3d(-100%, 0, 0);
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+
+.rj-mobile-drawer.is-open {
+    transform: translate3d(0, 0, 0);
+}
+
+/* Trava de scroll do body quando drawer aberto */
+body.rj-drawer-open {
+    overflow: hidden !important;
+    touch-action: none !important;
+}
+
+/* Cabeçalho do Drawer */
+.rj-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.rj-drawer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none !important;
+}
+
+.rj-drawer-brand .rj-logo-monogram {
+    width: 36px;
+    height: 36px;
+    font-size: 1.05rem;
+}
+
+.rj-drawer-brand .rj-brand-name {
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+.rj-drawer-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background-color: #f1f5f9;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rj-drawer-close:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+.rj-drawer-close svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Lista de Navegação do Drawer */
+.rj-drawer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.rj-drawer-title {
+    padding: 8px 20px 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+}
+
+.rj-drawer-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.rj-drawer-nav-list li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 20px;
+    color: var(--color-primary-navy, #1e293b);
+    text-decoration: none !important;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-left: 3px solid transparent;
+    transition: background 0.18s, color 0.18s, border-left-color 0.18s;
+}
+
+.rj-drawer-nav-list li a:hover,
+.rj-drawer-nav-list li a.active {
+    background-color: #f1f5f9;
+    border-left-color: var(--color-accent-bronze, #b45309);
+    color: var(--color-accent-bronze, #b45309);
+}
+
+.rj-drawer-nav-list li.highlight a {
+    background-color: rgba(245, 158, 11, 0.08);
+    color: #b45309;
+    font-weight: 700;
+}
+
+.rj-drawer-item-icon {
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Rodapé do Drawer com Ação WhatsApp */
+.rj-drawer-footer {
+    padding: 16px 20px;
+    background-color: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+}
+
+.rj-drawer-whats-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    background-color: var(--color-whatsapp, #25d366);
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.88rem;
+    border-radius: var(--radius-sm, 8px);
+    text-decoration: none !important;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+/* --------------------------------------------------------------------
+ * ADAPTAÇÃO RESPONSIVA PARA TABLETS E SMARTPHONES (<= 992px)
+ * -------------------------------------------------------------------- */
+@media (max-width: 992px) {
+    /* Exibe o botão hambúrguer */
+    #rj-mobile-menu-toggle {
+        display: flex !important;
+    }
+
+    /* Cabeçalho reorganizado em 2 linhas limpas */
+    .rj-header-main {
+        flex-wrap: wrap !important;
+        padding: 12px 16px !important;
+        gap: 10px !important;
+        justify-content: space-between !important;
+    }
+
+    .rj-brand-logo {
+        order: 1 !important;
+        flex: 0 0 auto !important;
+    }
+
+    .rj-header-action {
+        order: 2 !important;
+        gap: 8px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    /* Botão de tema no header mobile: exibe apenas o ícone, esconde texto */
+    .rj-theme-toggle-header .theme-text-dark,
+    .rj-theme-toggle-header .theme-text-light {
+        display: none !important;
+    }
+
+    .rj-theme-toggle-header {
+        padding: 10px !important;
+        width: 44px !important;
+        height: 44px !important;
+        justify-content: center !important;
+        border-radius: var(--radius-sm, 8px) !important;
+    }
+
+    /* Linha 2 do cabeçalho: Busca com 100% da largura útil */
+    .rj-search-box {
+        order: 3 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 100% !important;
+        margin: 4px 0 0 0 !important;
+    }
+
+    .rj-search-box form {
+        width: 100% !important;
+    }
+
+    .rj-search-box input {
+        height: 44px !important;
+        font-size: 0.9rem !important;
+        padding: 0 46px 0 16px !important;
+    }
+
+    /* Dropdown de sugestões da busca em tempo real com largura total */
+    .rj-search-suggestions {
+        width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+        max-height: calc(75vh - 100px) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 16px 36px rgba(15, 23, 42, 0.2) !important;
+    }
+
+    /* Oculta o menu horizontal original que cortava na tela */
+    .rj-navbar {
+        display: none !important;
+    }
+}
+
+/* --------------------------------------------------------------------
+ * ADAPTAÇÃO RESPONSIVA ESPECÍFICA PARA SMARTPHONES (<= 768px)
+ * -------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    /* No cabeçalho mobile, oculta o botão redundante 'Chame no WhatsApp'
+       pois o usuário tem a barra sticky no rodapé + FAB flutuante */
+    .rj-header-action .rj-btn-direct-whats {
+        display: none !important;
+    }
+
+    /* DESPOLUIÇÃO TOTAL: Balão invasivo que cobria a tela é desativado no mobile */
+    .rj-whatsapp-bubble {
+        display: none !important;
+    }
+
+    /* BOTÃO FLUTUANTE FAB 100% FUNCIONAL E ISOLADO */
+    .btn-whatsapp-floating {
+        bottom: 76px !important;
+        right: 16px !important;
+        width: 52px !important;
+        height: 52px !important;
+        z-index: 99999 !important;
+        pointer-events: auto !important;
+        cursor: pointer !important;
+    }
+
+    .btn-whatsapp-floating::before,
+    .btn-whatsapp-floating::after {
+        pointer-events: none !important;
+    }
+
+    .btn-whatsapp-floating .whatsapp-floating-icon {
+        width: 28px !important;
+        height: 28px !important;
+        pointer-events: none !important;
+    }
+
+    /* Barra Sticky do Rodapé */
+    .rj-mobile-sticky-bar {
+        display: flex !important;
+        height: 60px !important;
+        padding: 8px 12px !important;
+        z-index: 99990 !important;
+    }
+
+    /* Barra de Ordenação e Filtros no Catálogo */
+    .collection-header.template-cards {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 10px !important;
+        margin: 12px 0 16px 0 !important;
+    }
+
+    .collection-filter button {
+        height: 42px !important;
+        padding: 0 16px !important;
+        border-radius: var(--radius-sm, 8px) !important;
+        font-weight: 600 !important;
+        font-size: 0.85rem !important;
+    }
+
+    .collection-sort select {
+        height: 42px !important;
+        padding: 0 12px !important;
+        font-size: 0.85rem !important;
+        border-radius: var(--radius-sm, 8px) !important;
+    }
+}
+
+/* --------------------------------------------------------------------
+ * SUPORTE A TEMA ESCURO (DARK MODE) PARA OS ELEMENTOS MOBILE
+ * -------------------------------------------------------------------- */
+[data-theme="dark"] #rj-mobile-menu-toggle {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+[data-theme="dark"] #rj-mobile-menu-toggle:hover {
+    background-color: #334155;
+    border-color: #fbbf24;
+    color: #fbbf24;
+}
+
+[data-theme="dark"] .rj-mobile-drawer {
+    background-color: #0f172a;
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .rj-drawer-header {
+    background-color: #1e293b;
+    border-bottom-color: #334155;
+}
+
+[data-theme="dark"] .rj-drawer-brand .rj-brand-name {
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .rj-drawer-close {
+    background-color: #334155;
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .rj-drawer-close:hover {
+    background-color: #475569;
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .rj-drawer-title {
+    color: #64748b;
+}
+
+[data-theme="dark"] .rj-drawer-nav-list li a {
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .rj-drawer-nav-list li a:hover,
+[data-theme="dark"] .rj-drawer-nav-list li a.active {
+    background-color: #1e293b;
+    border-left-color: #fbbf24;
+    color: #fbbf24;
+}
+
+[data-theme="dark"] .rj-drawer-nav-list li.highlight a {
+    background-color: rgba(251, 191, 36, 0.12);
+    color: #fbbf24;
+}
+
+[data-theme="dark"] .rj-drawer-footer {
+    background-color: #1e293b;
+    border-top-color: #334155;
+}
+

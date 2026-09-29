@@ -370,3 +370,18 @@ Este documento serve como o plano de execução ativo para o desenvolvimento e t
     - Envio de eventos nativos de `pageview` e `whatsapp_click` com dados do produto, localização do botão e caminho da página.
   - **Validação Automatizada:**
     - Criada e aprovada a suíte `tests/test_vercel_analytics.js` com 7 asserções cobrindo o JSON de configuração, os scripts nas 8 páginas e o enfileiramento em `window.vaq` (100% PASS).
+- **2026-09-29 (Auditoria e Implementação de Responsividade Inteligente — Smartphones & Tablets):**
+  - **Diagnóstico e Resolução dos 4 Problemas Críticos de Mobile:**
+    - **1. Busca Comprimida / Tela Minúscula Solucionada:** Cabeçalho adaptativo reorganizado em 2 linhas em telas `<= 992px`. Linha 1 agrupa Logo, botão de alternância de tema e botão de menu hambúrguer; Linha 2 entrega 100% da largura útil para `.rj-search-box` com dropdown panorâmico de sugestões de fotos e móveis em tempo real.
+    - **2. Menu Cortado Solucionado:** Criado componente Off-Canvas Mobile Navigation Drawer (`#rj-mobile-drawer`, `#rj-drawer-backdrop`) acionado por `#rj-mobile-menu-toggle`, com transição fluida, backdrop blur, lista completa das 8 categorias com ícones temáticos e botão de WhatsApp direto para consultor no rodapé do drawer.
+    - **3. Fim da Poluição Visual:** O balão volumoso que ocupava quase 40% da tela útil no mobile foi desativado em telas `<= 768px`, priorizando a barra sticky limpa de rodapé (`.rj-mobile-sticky-bar`).
+    - **4. Botão Flutuante FAB 100% Operacional:** Calibrado acima da barra sticky (`bottom: 76px; right: 16px;`), com `pointer-events: none` em pseudo-elementos e listener tátil e de clique com redirecionamento garantido para o WhatsApp oficial.
+  - **Componentes Criados & Arquivos Modificados:**
+    - `js/mobile-drawer.js`: Gerenciador vanilla acessível do Drawer com suporte a `ESC`, backdrop click e trava de scroll no body (`body.rj-drawer-open`).
+    - `css/custom.css`: Adicionada seção completa de estilos responsivos para smartphones e tablets, preservando 100% o layout Desktop.
+    - `js/cro-enhancements.js`: Atualizado com condicionamento de tela para o balão e handler direto para o botão flutuante.
+    - 8 Páginas Oficiais (`index.html`, `catalogo.html`, `sofas.html`, `quartos.html`, `salas.html`, `paineis.html`, `cozinha.html`, `pronta-entrega.html`): Atualizadas com o botão hambúrguer, o Drawer lateral e a inclusão do script `js/mobile-drawer.js`.
+  - **Validação Automatizada:**
+    - Criada e aprovada a suíte `tests/test_responsiveness_audit.js` com 64 asserções cobrindo todas as páginas e componentes (100% PASS).
+    - Executada regressão completa com `tests/test_vercel_analytics.js` (7/7 PASS) e `scratch/verify_final_integrity.js` (100% PASS).
+
