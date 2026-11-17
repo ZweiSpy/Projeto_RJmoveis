@@ -31,6 +31,17 @@ function initCatalogSort() {
             idVal = card.getAttribute('data-id') || '0';
             card.dataset.sortId = idVal;
         }
+        let priceVal = parseFloat(card.dataset.price);
+        if (!Number.isFinite(priceVal)) {
+            const priceEl = card.querySelector('.product-card-price .price, [data-element="sale-price"]');
+            const rawPrice = priceEl ? priceEl.textContent : '';
+            const normalized = rawPrice.replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
+            const parsed = parseFloat(normalized);
+            priceVal = Number.isFinite(parsed) ? parsed : 0;
+            if (priceVal > 0) {
+                card.dataset.price = String(priceVal);
+            }
+        }
         if (!card.dataset.originalIndex) {
             card.dataset.originalIndex = String(index);
         }
@@ -39,7 +50,8 @@ function initCatalogSort() {
             card: card,
             originalIndex: index,
             id: parseInt(idVal, 10) || 0,
-            title: title
+            title: title,
+            price: priceVal
         };
     });
 
@@ -60,6 +72,10 @@ function initCatalogSort() {
             items.sort((a, b) => b.id - a.id); // Mais recentes primeiro
         } else if (criterion === 'name') {
             items.sort((a, b) => a.title.localeCompare(b.title, 'pt-BR', { sensitivity: 'base', numeric: true }));
+        } else if (criterion === 'pricelow') {
+            items.sort((a, b) => (a.price - b.price) || (a.originalIndex - b.originalIndex));
+        } else if (criterion === 'pricemax') {
+            items.sort((a, b) => (b.price - a.price) || (a.originalIndex - b.originalIndex));
         }
 
         // 2. Batch DOM Update com DocumentFragment (1 único reflow na tela)
@@ -115,7 +131,7 @@ function initCatalogSort() {
         // Verifica parâmetro de URL inicial ?sort=xxx
         const urlParams = new URLSearchParams(window.location.search);
         const paramSort = urlParams.get('sort');
-        if (paramSort && ['bestsellers', 'new', 'name'].includes(paramSort) && paramSort !== 'bestsellers') {
+        if (paramSort && ['bestsellers', 'new', 'name', 'pricelow', 'pricemax'].includes(paramSort) && paramSort !== 'bestsellers') {
             sortSelect.value = paramSort;
             executeSort(paramSort);
         }

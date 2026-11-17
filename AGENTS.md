@@ -4,7 +4,7 @@
 
 Este documento estabelece o fluxo de governança, definição de papéis, responsabilidades e limites operacionais para o desenvolvimento do **Projeto MeusMóveis**.
 
-O objetivo do projeto é transformar o catálogo base (`site-catalogos-original.html`) em uma aplicação web otimizada, moderna, sem exibição de preços, com nova identidade visual (**Elegance Blue**) e integração direta de conversão via **WhatsApp**, atuando como canal de vendas e divulgação autorizado.
+O objetivo do projeto é transformar o catálogo base (`site-catalogos-original.html`) em uma aplicação web otimizada, moderna, com exibição clara dos preços oficiais (à vista, 10x sem juros e PIX), nova identidade visual (**Elegance Blue**) e integração direta de conversão via **WhatsApp**, atuando como canal de vendas e divulgação autorizado.
 
 ---
 
@@ -50,7 +50,7 @@ graph TD
 | Definição de Escopo e Regras de Negócio | **A / R** (Aprova / Responsável) | **C** (Consultado) |
 | Escolha e Alteração de Paleta de Cores | **A** (Aprova) | **R** (Propõe / Implementa) |
 | Arquitetura de Software e Otimização de Performance | **A** (Homologa) | **R** (Desenha / Executa) |
-| Supressão de Valores, Parcelas e Filtros de Preço | **I** (Informa regras) | **R** (Executa com rigor) |
+| Exibição de Preços Oficiais e Ordenação por Valor | **A** (Define formato) | **R** (Extrai, normaliza e exibe com fidelidade) |
 | Implementação do CTA de WhatsApp com mensagem dinâmica | **A** (Define texto/número) | **R** (Desenvolve e testa) |
 | Alteração de Composição ou Nomes de Produtos | **Veto Absoluto** | **Veto Absoluto** |
 | Validação de Release / Entrega | **A** (Aprovação Final) | **R** (Submete para revisão) |
@@ -63,12 +63,12 @@ graph TD
 
 > [!IMPORTANT]
 > ### O que DEVEMOS fazer:
-> 1. **Remover todos os preços e valores:** Não exibir preço à vista, parcelamentos, menções a PIX ou bandeiras de cartão.
-> 2. **Remover filtros de preço:** Eliminar o slider de preço da barra lateral e opções de ordenação por valor.
-> 3. **Trocar a paleta de cores:** Aplicar o padrão **Elegance Blue** (Navy `#1e293b`, Dourado/Bronze `#b45309`/`#d97706` e neutros) configurado em variáveis CSS reutilizáveis.
-> 4. **Substituir links/ações por CTA de WhatsApp:** Incluir botão de contato direto com mensagem pré-configurada contendo o nome exato do produto.
-> 5. **Otimizar performance:** Reduzir o payload do HTML original (de ~892 KB) para uma versão ultrarrápida e modular.
-> 6. **Remover trackers de terceiros:** Limpar scripts analíticos da loja original (ex.: Matomo da `iset.io`).
+> 1. **Exibir os preços oficiais fielmente:** Mostrar nos cards e no Modal Quick-View os preços originais extraídos das fontes do projeto (preço principal, parcelamento em 10x sem juros e valor no PIX), sem alterar ou inventar valores.
+> 2. **Manter ordenação limpa com suporte a preços:** Oferecer ordenação por `Mais vendidos`, `Novos lançamentos`, `Nome (A-Z)`, `Menor preço` e `Maior preço`, mantendo o slider lateral legado oculto.
+> 3. **Aplicar a paleta Elegance Blue:** Manter Navy `#1e293b`, Dourado/Bronze `#b45309`/`#d97706` e neutros configurados em variáveis CSS reutilizáveis (Light e Dark Mode).
+> 4. **Manter o CTA de WhatsApp em todos os produtos:** Preservar o botão de contato direto (`Consultar no WhatsApp`) abaixo do preço com mensagem pré-configurada contendo o nome exato do produto.
+> 5. **Otimizar performance:** Manter o catálogo rápido e modular em HTML/CSS/JS puro com cache-busting adequado.
+> 6. **Manter zero trackers de terceiros do lojista original:** Preservar a remoção de scripts analíticos legados (ex.: Matomo da `iset.io`).
 
 > [!CAUTION]
 > ### O que É ESTRITAMENTE PROIBIDO (Cláusulas Pétreas):
@@ -94,7 +94,7 @@ graph TD
 [Implementação (Antigravity)] ───────► Execução com foco em performance e qualidade
        │
        ▼
-[Verificação Automatizada] ──────────► Zero ocorrências de R$, links válidos, sintaxe limpa
+[Verificação Automatizada] ──────────► Integridade dos 523 preços, links válidos, Delta <div> = 0, sintaxe limpa
        │
        ▼
 [Validação Visual & UX (Zwei)] ──────► Aprovação final de entrega

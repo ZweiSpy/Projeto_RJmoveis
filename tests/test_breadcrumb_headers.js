@@ -157,13 +157,14 @@ pages.forEach(p => {
         }
     }
 
-    // 7. Verificar ausência de R$
-    const rDollarMatches = (html.match(/R\$/g) || []).length;
-    if (rDollarMatches > 0) {
-        console.error(`  [FALHA] Encontradas ${rDollarMatches} ocorrências de 'R$'!`);
+    // 7. Verificar presença de blocos de preço oficiais em todos os cards
+    const expectedNum = parseInt(p.expectedCount, 10);
+    const priceBlockCount = (html.match(/class="product-card-price"/g) || []).length;
+    if (priceBlockCount !== expectedNum) {
+        console.error(`  [FALHA] Esperados ${expectedNum} blocos de preço, encontrados ${priceBlockCount}!`);
         totalErrors++;
     } else {
-        console.log(`  [OK] Zero ocorrências de R$`);
+        console.log(`  [OK] Todos os ${priceBlockCount} cards possuem bloco de preço oficial`);
     }
 });
 

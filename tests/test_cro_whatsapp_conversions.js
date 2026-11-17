@@ -190,16 +190,15 @@ runTest('6.1. css/custom.css possui seletores [data-theme="dark"] para todos os 
     assert.ok(cssContent.includes('[data-theme="dark"] .rj-mobile-sticky-bar'), 'Dark mode da sticky bar ausente');
 });
 
-runTest('6.2. Nenhuma das 8 páginas possui menções a preços ("R$")', () => {
+runTest('6.2. Todas as 8 páginas exibem preços oficiais (R$) nos cards juntamente com o CTA do WhatsApp', () => {
     PAGES.forEach(filename => {
         const filePath = path.join(BASE_DIR, filename);
         const content = fs.readFileSync(filePath, 'utf8');
+        const cardCount = (content.match(/class="storefront-cards collection-grid-card product-card/g) || []).length;
+        const priceBlocks = (content.match(/class="product-card-price"/g) || []).length;
         const matches = content.match(/R\$\s*[\d\.\,]+/g) || [];
-        assert.strictEqual(
-            matches.length,
-            0,
-            `${filename} contém menções a preços: ${JSON.stringify(matches)}`
-        );
+        assert.strictEqual(priceBlocks, cardCount, `${filename} deveria ter ${cardCount} blocos de preço, encontrados ${priceBlocks}`);
+        assert.ok(matches.length >= cardCount * 3, `${filename} possui menos ocorrências de R$ do que o esperado (3 por card)`);
     });
 });
 

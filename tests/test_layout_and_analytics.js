@@ -53,9 +53,9 @@ PAGES.forEach(({ file, expectedCards, isHome }) => {
     const cardMatches = content.match(/class="[^"]*product-card-title[^"]*"/g) || [];
     assert(cardMatches.length === expectedCards, `${file} tem exatamente ${expectedCards} cards (encontrados: ${cardMatches.length})`);
 
-    // Zero R$ (Cláusula Pétrea)
-    const rDollarMatches = content.match(/R\$/g) || [];
-    assert(rDollarMatches.length === 0, `${file} tem zero ocorrências de 'R$' (encontradas: ${rDollarMatches.length})`);
+    // Blocos de preço oficiais nos cards (à vista, 10x sem juros e PIX)
+    const priceBlocks = (content.match(/class="product-card-price"/g) || []).length;
+    assert(priceBlocks === expectedCards, `${file} exibe bloco de preço oficial em todos os ${expectedCards} cards (encontrados: ${priceBlocks})`);
 
     // Tag balance (divs)
     const openDivs = (content.match(/<div[\s>]/gi) || []).length;
@@ -63,10 +63,10 @@ PAGES.forEach(({ file, expectedCards, isHome }) => {
     assert(openDivs === closeDivs, `${file} possui balanço perfeito de <div> (open: ${openDivs}, close: ${closeDivs})`);
 
     // Inclusão dos scripts obrigatórios
-    assert(content.includes('src="js/analytics.js"'), `${file} inclui js/analytics.js`);
-    assert(content.includes('src="js/catalog-pagination.js"'), `${file} inclui js/catalog-pagination.js`);
-    assert(content.includes('src="js/theme-toggle.js"'), `${file} inclui js/theme-toggle.js`);
-    assert(content.includes('src="js/catalog-search.js"'), `${file} inclui js/catalog-search.js`);
+    assert(content.includes('src="js/analytics.js'), `${file} inclui js/analytics.js`);
+    assert(content.includes('src="js/catalog-pagination.js'), `${file} inclui js/catalog-pagination.js`);
+    assert(content.includes('src="js/theme-toggle.js'), `${file} inclui js/theme-toggle.js`);
+    assert(content.includes('src="js/catalog-search.js'), `${file} inclui js/catalog-search.js`);
 
     // Botões de WhatsApp sem número visível no texto
     const btnNumberInText = content.match(/<a[^>]*btn-whatsapp-cta[^>]*>[\s\S]*?\(21\)\s*99499-0764[\s\S]*?<\/a>/gi);

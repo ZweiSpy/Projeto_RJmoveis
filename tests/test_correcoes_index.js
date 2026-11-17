@@ -80,8 +80,8 @@ runTest("2.3. Nomes com acentuação correta presentes (Sofá, Retrátil, Reclin
 // 3. APLICAÇÃO EFETIVA DA PALETA ELEGANCE BLUE
 // -----------------------------------------------------------------
 runTest("3.1. Tokens CSS oficiais linkados no cabeçalho", () => {
-    assert.ok(indexHtml.includes('href="css/tokens.css"'), "css/tokens.css não linkado");
-    assert.ok(indexHtml.includes('href="css/custom.css"'), "css/custom.css não linkado");
+    assert.ok(indexHtml.includes('href="css/tokens.css'), "css/tokens.css não linkado");
+    assert.ok(indexHtml.includes('href="css/custom.css'), "css/custom.css não linkado");
 });
 
 runTest("3.2. Eliminação de cores legadas (laranja #f96a1b e marrom #4a2e22)", () => {
@@ -111,11 +111,13 @@ runTest("4.3. Navegação da RJ Móveis com links de categorias ativos", () => {
 });
 
 // -----------------------------------------------------------------
-// 5. SUPRESSÃO DE PREÇOS E INTEGRIDADE DE PRODUTOS
+// 5. EXIBIÇÃO DE PREÇOS OFICIAIS E INTEGRIDADE DE PRODUTOS
 // -----------------------------------------------------------------
-runTest("5.1. Zero ocorrências de 'R$' no index.html", () => {
+runTest("5.1. Todos os 12 cards do index.html exibem preço oficial (R$, 10x sem juros e PIX)", () => {
+    const priceBlocks = indexHtml.match(/class="product-card-price"/g) || [];
+    assert.strictEqual(priceBlocks.length, 12, `Esperados 12 blocos de preço, encontrados ${priceBlocks.length}`);
     const rDollarMatches = indexHtml.match(/R\$\s*[\d\.\,]+/g) || [];
-    assert.strictEqual(rDollarMatches.length, 0, `Encontradas ocorrências de R$: ${JSON.stringify(rDollarMatches)}`);
+    assert.ok(rDollarMatches.length >= 36, `Esperadas ao menos 36 ocorrências de R$ nos 12 cards, encontradas ${rDollarMatches.length}`);
 });
 
 runTest("5.2. Todos os 12 cards da vitrine possuem o botão CTA do WhatsApp", () => {
@@ -181,7 +183,7 @@ runTest("7.3. Tokens do Dark Mode em alto contraste ([data-theme='dark']) defini
 });
 
 runTest("7.4. Script js/theme-toggle.js criado e linkado no index.html", () => {
-    assert.ok(indexHtml.includes('src="js/theme-toggle.js"'), "Script js/theme-toggle.js não linkado no index.html");
+    assert.ok(indexHtml.includes('src="js/theme-toggle.js'), "Script js/theme-toggle.js não linkado no index.html");
     const scriptPath = path.join('c:', 'Users', 'Micro', 'Documents', 'Projeto_MeusMoveis', 'js', 'theme-toggle.js');
     assert.ok(fs.existsSync(scriptPath), "Arquivo js/theme-toggle.js não existe fisicamente");
     const scriptContent = fs.readFileSync(scriptPath, 'utf8');

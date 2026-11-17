@@ -89,12 +89,13 @@ const croJs = fs.readFileSync('js/cro-enhancements.js', 'utf8');
 assert(croJs.includes('if (window.innerWidth <= 768)'), 'cro-enhancements.js previne abertura do balão em smartphones <= 768px');
 assert(croJs.includes('initWhatsAppFloatingHandler'), 'cro-enhancements.js implementa handler confiável para o FAB');
 
-// --- TESTE 5: Cláusulas Pétreas ---
-console.log('\n🔒 Teste 5: Cláusulas Pétreas e Segurança');
+// --- TESTE 5: Governança, Preços Oficiais e WhatsApp ---
+console.log('\n🔒 Teste 5: Governança (Preços Oficiais + WhatsApp) e Segurança');
 pages.forEach(p => {
     const html = fs.readFileSync(p, 'utf8');
-    const rdollarMatches = html.match(/R\$\s*\d+/g);
-    assert(!rdollarMatches, `${p} não possui menções de preço (R$ 0 encontrado)`);
+    const cardCount = (html.match(/class="storefront-cards collection-grid-card product-card/g) || []).length;
+    const priceBlocks = (html.match(/class="product-card-price"/g) || []).length;
+    assert(cardCount > 0 && priceBlocks === cardCount, `${p} exibe blocos de preço em todos os ${cardCount} cards`);
 
     const hasWhats = html.includes('5521994990764');
     assert(hasWhats, `${p} preserva número oficial do WhatsApp (+55 21 99499-0764)`);
@@ -111,8 +112,8 @@ assert(hasCssJsRevalidate, 'vercel.json possui regra de revalidação imediata (
 pages.forEach(p => {
     const html = fs.readFileSync(p, 'utf8');
     assert(html.includes('id="rj-mobile-critical-css"'), `${p} contém CSS Crítico Mobile Inline (<style id="rj-mobile-critical-css">)`);
-    assert(html.includes('css/custom.css?v=2.2.0'), `${p} versionado com cache-busting v=2.2.0 em custom.css`);
-    assert(html.includes('js/mobile-drawer.js?v=2.2.0'), `${p} versionado com cache-busting v=2.2.0 em mobile-drawer.js`);
+    assert(html.includes('css/custom.css?v=2.4.0'), `${p} versionado com cache-busting v=2.4.0 em custom.css`);
+    assert(html.includes('js/mobile-drawer.js?v=2.4.0'), `${p} versionado com cache-busting v=2.4.0 em mobile-drawer.js`);
 });
 
 // --- RESUMO FINAL ---

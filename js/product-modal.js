@@ -3,7 +3,7 @@
  * PROJETO MEUSMÓVEIS — MODAL FLUTUANTE DE DETALHES (QUICK-VIEW)
  * ====================================================================
  * Exibe galeria de fotos em alta resolução, vídeo sob demanda do YouTube,
- * especificações e medidas técnicas e CTA WhatsApp direto, sem exibir preços.
+ * preços oficiais (à vista, 10x sem juros e PIX), especificações técnicas e CTA WhatsApp.
  * Suporta carregamento síncrono via window.RJ_PRODUCTS_DATA (sem CORS/file://)
  * e fallback assíncrono via fetch().
  * ====================================================================
@@ -180,6 +180,12 @@
                             <span class="product-modal-badge">Catálogo Oficial RJ Móveis</span>
                             <h2 id="modal-title" class="product-modal-title"></h2>
 
+                            <div id="modal-price-box" class="product-modal-price-box" style="display: none;">
+                                <div id="modal-price-main" class="product-modal-price-main"></div>
+                                <div id="modal-price-installments" class="product-modal-price-installments"></div>
+                                <div id="modal-price-pix" class="product-modal-price-pix" style="display: none;"></div>
+                            </div>
+
                             <div class="product-modal-cta-wrap">
                                 <a id="modal-whatsapp-link" href="#" target="_blank" rel="noopener noreferrer" class="btn-modal-whatsapp">
                                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
@@ -227,6 +233,10 @@
             videoBtn: document.getElementById('modal-btn-video'),
             galleryThumbs: document.getElementById('modal-gallery-thumbs'),
             title: document.getElementById('modal-title'),
+            priceBox: document.getElementById('modal-price-box'),
+            priceMain: document.getElementById('modal-price-main'),
+            priceInstallments: document.getElementById('modal-price-installments'),
+            pricePix: document.getElementById('modal-price-pix'),
             whatsappLink: document.getElementById('modal-whatsapp-link'),
             freteLink: document.getElementById('modal-frete-link'),
             descContent: document.getElementById('modal-desc-content')
@@ -253,7 +263,55 @@
     }
 
     // 4. Abertura do Modal com os Dados do Produto
-    async function openModal(productId, fallbackTitle, fallbackImg) {
+    function renderModalPrice(elems, priceData) {
+        if (!elems.priceBox) return;
+
+        if (!priceData || !priceData.saleFormatted) {
+            elems.priceBox.style.display = 'none';
+            elems.priceMain.textContent = '';
+            elems.priceInstallments.textContent = '';
+            elems.pricePix.style.display = 'none';
+            elems.pricePix.textContent = '';
+            return;
+        }
+
+        elems.priceMain.textContent = priceData.saleFormatted;
+
+        if (priceData.installmentValueFormatted) {
+            const count = priceData.installmentsCount || 10;
+            elems.priceInstallments.innerHTML = '';
+            elems.priceInstallments.appendChild(document.createTextNode('Em '));
+            const instStrong = document.createElement('strong');
+            instStrong.textContent = `${count}x de ${priceData.installmentValueFormatted}`;
+            elems.priceInstallments.appendChild(instStrong);
+            elems.priceInstallments.appendChild(document.createTextNode(' sem juros'));
+            elems.priceInstallments.style.display = 'block';
+        } else if (priceData.installmentsText) {
+            elems.priceInstallments.textContent = priceData.installmentsText;
+            elems.priceInstallments.style.display = 'block';
+        } else {
+            elems.priceInstallments.style.display = 'none';
+        }
+
+        if (priceData.pixFormatted) {
+            elems.pricePix.innerHTML = '';
+            elems.pricePix.appendChild(document.createTextNode('ou '));
+            const pixValStrong = document.createElement('strong');
+            pixValStrong.textContent = priceData.pixFormatted;
+            elems.pricePix.appendChild(pixValStrong);
+            elems.pricePix.appendChild(document.createTextNode(' no '));
+            const pixTagStrong = document.createElement('strong');
+            pixTagStrong.textContent = 'PIX';
+            elems.pricePix.appendChild(pixTagStrong);
+            elems.pricePix.style.display = 'inline-flex';
+        } else {
+            elems.pricePix.style.display = 'none';
+        }
+
+        elems.priceBox.style.display = 'flex';
+    }
+
+    async function openModal(productId, fallbackTitle, fallbackImg, fallbackPrice) {
         const elems = getOrCreateModal();
         const prod = await getProductById(productId);
 
@@ -263,11 +321,13 @@
             mainImage: fallbackImg || '',
             gallery: fallbackImg ? [fallbackImg] : [],
             youtubeVideo: null,
+            price: fallbackPrice || null,
             description: 'Entre em contato com nossa equipe pelo WhatsApp para obter as especificações completas deste item.'
         };
 
-        // Configurar Título
+        // Configurar Título e Preço Oficial
         elems.title.textContent = currentProduct.title;
+        renderModalPrice(elems, currentProduct.price || fallbackPrice || null);
 
         // Configurar Link Principal do WhatsApp com Copywriting Persuasivo
         const msgWhats = encodeURIComponent(`Olá, equipe RJ Móveis! Me encantei pelo *${currentProduct.title}* no catálogo oficial. Gostaria de consultar opções de cores de tecido, prazo de entrega para meu CEP e condições. Poderiam me atender?`);
@@ -393,13 +453,15 @@
 
         if (!productId) return;
 
-        // Extrai título e imagem de fallback do próprio card
+        // Extrai título, imagem e preço de fallback do próprio card
         const titleElem = card.querySelector('.product-card-title a') || card.querySelector('.product-card-title') || card.querySelector('a[title]');
         const fallbackTitle = titleElem ? (titleElem.getAttribute('title') || titleElem.textContent.trim()) : '';
         const imgElem = card.querySelector('img');
         const fallbackImg = imgElem ? (imgElem.getAttribute('data-src') || imgElem.src) : '';
+        const salePriceElem = card.querySelector('.product-card-price .price, [data-element="sale-price"]');
+        const fallbackPrice = salePriceElem ? { saleFormatted: salePriceElem.textContent.trim() } : null;
 
-        openModal(productId, fallbackTitle, fallbackImg);
+        openModal(productId, fallbackTitle, fallbackImg, fallbackPrice);
     });
 
     // Expõe globalmente caso necessário

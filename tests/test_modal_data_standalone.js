@@ -46,6 +46,7 @@ if (productIds.length !== 523) {
 let itemsWithPhotos = 0;
 let itemsWithDesc = 0;
 let itemsWithVideo = 0;
+let itemsWithPrice = 0;
 
 productIds.forEach(id => {
     const item = db[id];
@@ -53,12 +54,18 @@ productIds.forEach(id => {
         console.error(`[ERRO] Produto ${id} sem id ou title válido.`);
         totalErrors++;
     }
+    if (item.price && item.price.saleFormatted && item.price.saleNumeric > 0 && item.price.pixFormatted) {
+        itemsWithPrice++;
+    } else {
+        console.error(`[ERRO] Produto ${id} sem objeto price válido.`);
+        totalErrors++;
+    }
     if (Array.isArray(item.gallery) && item.gallery.length > 0) itemsWithPhotos++;
     if (item.description && item.description.trim().length > 0) itemsWithDesc++;
     if (item.youtubeVideo && (item.youtubeVideo.videoId || item.youtubeVideo.embedUrl)) itemsWithVideo++;
 });
 
-console.log(`[OK] Estatísticas dos dados: ${itemsWithPhotos} com fotos na galeria, ${itemsWithDesc} com descrição, ${itemsWithVideo} com vídeo do YouTube.`);
+console.log(`[OK] Estatísticas dos dados: ${itemsWithPrice} com preço oficial, ${itemsWithPhotos} com fotos na galeria, ${itemsWithDesc} com descrição, ${itemsWithVideo} com vídeo do YouTube.`);
 
 // 2. Validar ordem dos scripts nas 8 páginas
 const targetPages = [
@@ -108,9 +115,14 @@ const requiredCssRules = [
     '.modal-spec-label',
     '.modal-spec-value',
     '.modal-spec-notice',
+    '.product-modal-price-box',
+    '.product-modal-price-main',
+    '.product-modal-price-installments',
+    '.product-modal-price-pix',
     '[data-theme="dark"] .modal-spec-section-title',
     '[data-theme="dark"] .modal-spec-item',
-    '[data-theme="dark"] .modal-spec-notice'
+    '[data-theme="dark"] .modal-spec-notice',
+    '[data-theme="dark"] .product-modal-price-box'
 ];
 
 requiredCssRules.forEach(rule => {

@@ -21,11 +21,9 @@ if (fs.existsSync(MAP_PATH)) {
 }
 
 let errors = 0;
-let priceViolations = 0;
+let missingPrices = 0;
 let missingGalleries = 0;
 let videoCount = 0;
-
-const PRICE_REGEX = /(R\$\s*[\d\.\,]+|[\d]+x\s+de\s+R\$|sem juros|no cartão|no pix)/i;
 
 for (const [id, prod] of Object.entries(details)) {
     // 1. Validação de ID e Título
@@ -34,10 +32,10 @@ for (const [id, prod] of Object.entries(details)) {
         errors++;
     }
 
-    // 2. Validação Estrita de Zero Preços / Zero Menções Financeiras
-    if (PRICE_REGEX.test(prod.description) || PRICE_REGEX.test(prod.title)) {
-        console.error(`[VIOLAÇÃO FINANCEIRA] Produto [${id}] "${prod.title}" contém menção a preço ou condição de pagamento!`);
-        priceViolations++;
+    // 2. Validação Estrita de Preço Oficial Estruturado (à vista, 10x sem juros e PIX)
+    if (!prod.price || !prod.price.saleFormatted || !(prod.price.saleNumeric > 0) || !prod.price.installmentsText || !prod.price.pixFormatted) {
+        console.error(`[PREÇO AUSENTE/INVÁLIDO] Produto [${id}] "${prod.title}" não possui dados completos de preço!`);
+        missingPrices++;
         errors++;
     }
 
@@ -57,10 +55,10 @@ console.log('\n--- RESUMO DA AUDITORIA ---');
 console.log(`Total de itens analisados: ${totalCount}`);
 console.log(`Itens com vídeo YouTube cadastrado: ${videoCount}`);
 console.log(`Itens sem fotos na galeria: ${missingGalleries}`);
-console.log(`Violações financeiras (R$, preços, parcelas): ${priceViolations}`);
+console.log(`Produtos sem preço completo: ${missingPrices}`);
 console.log(`Total de erros críticos: ${errors}`);
 
-if (errors === 0 && priceViolations === 0) {
+if (errors === 0 && missingPrices === 0) {
     console.log('\n[SUCESSO ABSOLUTO] Todos os produtos analisados estão 100% em conformidade com as regras do projeto!');
     process.exit(0);
 } else {

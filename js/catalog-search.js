@@ -70,34 +70,36 @@
                 const keys = Object.keys(window.RJ_PRODUCTS_DATA);
                 productIndex = keys.map(id => {
                     const item = window.RJ_PRODUCTS_DATA[id];
-                    const thumb = (item.gallery && item.gallery.length > 0)
-                        ? item.gallery[0]
-                        : (item.mainImage || '');
+                    const thumb = item.mainImage || (item.gallery && item.gallery.length > 0 ? item.gallery[0] : '');
 
                     return {
                         id: String(item.id),
                         title: item.title,
                         normTitle: normalizeText(item.title),
                         mainImage: thumb,
-                        category: detectCategory(item.title)
+                        category: detectCategory(item.title),
+                        price: item.price || null
                     };
                 });
             } else {
                 // Fallback a partir dos cards existentes no DOM
                 const cards = Array.from(document.querySelectorAll('.product-card'));
                 productIndex = cards.map(card => {
-                    const id = card.getAttribute('data-product-id') || card.id.replace(/\D/g, '') || '';
+                    const id = card.getAttribute('data-id') || card.getAttribute('data-product-id') || card.id.replace(/\D/g, '') || '';
                     const titleEl = card.querySelector('.product-card-title a') || card.querySelector('.product-card-title');
                     const title = titleEl ? titleEl.textContent.trim() : '';
                     const imgEl = card.querySelector('.product-card-image img') || card.querySelector('img');
                     const thumb = imgEl ? (imgEl.getAttribute('data-src') || imgEl.src) : '';
+                    const saleEl = card.querySelector('.product-card-price .price, [data-element="sale-price"]');
+                    const priceObj = saleEl ? { saleFormatted: saleEl.textContent.trim() } : null;
 
                     return {
                         id: id,
                         title: title,
                         normTitle: normalizeText(title),
                         mainImage: thumb,
-                        category: detectCategory(title)
+                        category: detectCategory(title),
+                        price: priceObj
                     };
                 });
             }
@@ -198,14 +200,25 @@
 
             currentSuggestions.forEach((item, index) => {
                 const highlighted = highlightMatches(item.title, cleanTerms);
+                const priceInfo = item.price;
+                const priceHtml = (priceInfo && priceInfo.saleFormatted)
+                    ? `<div class="rj-search-item-price">
+                            <span class="rj-search-price-main">${escapeHtml(priceInfo.saleFormatted)}</span>
+                            ${priceInfo.pixFormatted ? `<span class="rj-search-price-pix">${escapeHtml(priceInfo.pixFormatted)} no PIX</span>` : ''}
+                       </div>`
+                    : '';
+
                 html += `
                     <div class="rj-search-item" data-index="${index}" data-id="${item.id}" role="option" tabindex="-1">
-                        <img class="rj-search-item-thumb" src="${escapeHtml(item.mainImage)}" alt="${escapeHtml(item.title)}" loading="lazy" onerror="this.style.display='none'">
+                        <img class="rj-search-item-thumb" src="${escapeHtml(item.mainImage)}" alt="${escapeHtml(item.title)}" loading="eager" onerror="this.classList.add('is-broken')">
                         <div class="rj-search-item-info">
                             <span class="rj-search-item-title">${highlighted}</span>
-                            <span class="rj-search-item-meta">${escapeHtml(item.category)} • Código: #${item.id}</span>
+                            <span class="rj-search-item-meta">${escapeHtml(item.category)} • Cód. #${item.id}</span>
                         </div>
-                        <span class="rj-search-item-badge">Ver detalhes →</span>
+                        <div class="rj-search-item-right">
+                            ${priceHtml}
+                            <span class="rj-search-item-badge">Ver detalhes →</span>
+                        </div>
                     </div>
                 `;
             });

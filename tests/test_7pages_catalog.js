@@ -41,15 +41,21 @@ EXPECTED_PAGES.forEach(p => {
     assert(fs.existsSync(fullPath), `Arquivo ${p.file} existe no disco`);
 });
 
-console.log('\n--- 2. Auditoria Rigorosa de Preços (ZERO R$) e Integridade de Tags ---');
+console.log('\n--- 2. Auditoria Rigorosa de Preços Oficiais nos Cards e Integridade de Tags ---');
 EXPECTED_PAGES.forEach(p => {
     const fullPath = path.join(BASE_DIR, p.file);
     if (!fs.existsSync(fullPath)) return;
     const content = fs.readFileSync(fullPath, 'utf8');
 
-    // Teste de R$
-    const rDollarMatches = content.match(/R\$/g) || [];
-    assert(rDollarMatches.length === 0, `${p.file}: ZERO ocorrências de 'R$'`, `Encontradas: ${rDollarMatches.length}`);
+    // Teste de blocos de preço oficiais nos cards
+    const priceBlockCount = (content.match(/class="product-card-price"/g) || []).length;
+    assert(priceBlockCount === p.expectedCards, `${p.file}: Todos os ${p.expectedCards} cards exibem bloco de preço (.product-card-price)`, `Encontrados: ${priceBlockCount}`);
+
+    const salePriceCount = (content.match(/data-element="sale-price"/g) || []).length;
+    assert(salePriceCount === p.expectedCards, `${p.file}: Todos os ${p.expectedCards} cards possuem preço principal (sale-price)`, `Encontrados: ${salePriceCount}`);
+
+    const pixCount = (content.match(/class="cdm-pix"/g) || []).length;
+    assert(pixCount === p.expectedCards, `${p.file}: Todos os ${p.expectedCards} cards exibem opção PIX (.cdm-pix)`, `Encontrados: ${pixCount}`);
 
     // Teste de balanço de div
     const openDivs = (content.match(/<div[\s>]/gi) || []).length;
@@ -110,7 +116,7 @@ EXPECTED_PAGES.forEach(p => {
 
     // Busca instantânea
     assert(content.includes('id="rj-catalog-search-input"'), `${p.file}: Campo de busca instantânea presente`);
-    assert(content.includes('src="js/catalog-search.js"'), `${p.file}: Script de busca instantânea linkado`);
+    assert(content.includes('src="js/catalog-search.js'), `${p.file}: Script de busca instantânea linkado`);
 });
 
 console.log('\n--- 6. Auditoria de Design System, Tema Dark/Light e Rodapé Institucional ---');
@@ -120,12 +126,12 @@ EXPECTED_PAGES.forEach(p => {
     const content = fs.readFileSync(fullPath, 'utf8');
 
     // Tokens CSS e Custom CSS
-    assert(content.includes('href="css/tokens.css"'), `${p.file}: tokens.css linkado`);
-    assert(content.includes('href="css/custom.css"'), `${p.file}: custom.css linkado`);
+    assert(content.includes('href="css/tokens.css'), `${p.file}: tokens.css linkado`);
+    assert(content.includes('href="css/custom.css'), `${p.file}: custom.css linkado`);
 
     // Script ante-FOUC
     assert(content.includes("localStorage.getItem('rj_theme')"), `${p.file}: Script ante-FOUC presente no <head>`);
-    assert(content.includes('src="js/theme-toggle.js"'), `${p.file}: theme-toggle.js linkado`);
+    assert(content.includes('src="js/theme-toggle.js'), `${p.file}: theme-toggle.js linkado`);
 
     // Alternador de tema no cabeçalho
     assert(content.includes('id="theme-toggle"'), `${p.file}: Botão de alternância de tema no cabeçalho`);

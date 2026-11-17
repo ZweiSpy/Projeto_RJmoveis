@@ -9,7 +9,7 @@ Bem-vindo ao repositório do **Projeto MeusMóveis**. Este projeto é uma plataf
 Para garantir excelência técnica, clareza operacional e alinhamento contínuo entre negócio e engenharia, este projeto segue um fluxo formal de governança estruturado nos seguintes documentos:
 
 - 📜 [AGENTS.md](file:///c:/Users/Micro/Documents/Projeto_MeusMoveis/AGENTS.md) — **Protocolo de Governança e Regras de Operação**: Define a matriz RACI, os papéis de **Zwei** (PO & Tech Lead) e **Antigravity** (DEV, Arquiteto e Engenheiro de Software), além das regras inegociáveis de escopo.
-- 📐 [SDD.md](file:///c:/Users/Micro/Documents/Projeto_MeusMoveis/SDD.md) — **Software Design Document**: Especificações arquiteturais, sistema de tokens visuais (**Elegance Blue**), estratégia de supressão de preços e mecanismo de conversão via WhatsApp.
+- 📐 [SDD.md](file:///c:/Users/Micro/Documents/Projeto_MeusMoveis/SDD.md) — **Software Design Document**: Especificações arquiteturais, sistema de tokens visuais (**Elegance Blue**), exibição de preços oficiais e mecanismo de conversão via WhatsApp.
 - 🗺️ [Plan.md](file:///c:/Users/Micro/Documents/Projeto_MeusMoveis/Plan.md) — **Roadmap Operacional & Backlog**: Acompanhamento fase a fase do desenvolvimento, checklist de entregas, critérios de aceite e gestão de riscos.
 
 ---
@@ -17,10 +17,10 @@ Para garantir excelência técnica, clareza operacional e alinhamento contínuo 
 ## 🎯 Regras Centrais do Projeto
 
 > [!IMPORTANT]
-> **Modificações Obrigatórias:**
-> - **Remoção de Todos os Valores:** Nenhum preço, parcela ou menção a PIX é exibido no catálogo.
+> **Regras Principais:**
+> - **Preços Oficiais nos Cards e Modal:** Exibição fiel do valor principal, parcelamento em 10x sem juros e valor com desconto no PIX extraídos das fontes originais, com ordenação por Menor/Maior preço.
 > - **Troca de Cores:** Substituição da identidade original pela paleta **Elegance Blue** (Navy `#1e293b` + Bronze `#b45309`).
-> - **Conversão via WhatsApp:** Cada card de produto possui o botão **"Chame no WhatsApp agora"** com mensagem automática contendo o nome exato do móvel.
+> - **Conversão via WhatsApp:** Cada card de produto e o modal Quick-View mantêm o botão **"Consultar no WhatsApp"** / **"Chame no WhatsApp agora"** com mensagem automática contendo o nome exato do móvel.
 > - **Otimização:** Código limpo, remoção de scripts de rastreamento de terceiros e alta velocidade de carregamento.
 
 > [!CAUTION]

@@ -6,9 +6,10 @@
 O **Projeto MeusMóveis** é uma aplicação web de catálogo interativo derivado do arquivo base autorizado `site-catalogos-original.html`. O sistema tem como propósito servir de vitrine virtual para divulgação e vendas diretas, direcionando o cliente para negociação e fechamento de pedidos humanizados via **WhatsApp**.
 
 ### 1.2. Metas Técnicas
-- **Zero Exibição de Preços:** Supressão total de valores, parcelamentos e filtros financeiros.
-- **Conversão Otimizada:** Substituição do fluxo de e-commerce tradicional por um CTA (Call to Action) direto para WhatsApp.
-- **Nova Identidade Visual:** Aplicação consistente da paleta **Elegance Blue** através de CSS Custom Properties (Tokens).
+- **Exibição Fiel de Preços Oficiais:** Apresentação do preço principal, parcelamento em 10x sem juros e desconto no PIX nos cards e no Modal Quick-View, extraídos das 7 páginas-fonte originais.
+- **Ordenação Dinâmica Completa:** Suporte a `Mais vendidos`, `Novos lançamentos`, `Nome (A-Z)`, `Menor preço` (`pricelow`) e `Maior preço` (`pricemax`).
+- **Conversão Otimizada:** Manutenção do botão de conversão direta para WhatsApp em todos os cards e no Modal Quick-View.
+- **Nova Identidade Visual:** Aplicação consistente da paleta **Elegance Blue** através de CSS Custom Properties (Tokens) em Light e Dark Mode.
 - **Alta Performance:** Redução drástica do tempo de carregamento e remoção de scripts de rastreamento de terceiros.
 - **Preservação de Integridade:** Manutenção integral da composição em grade, nomes e imagens originais dos produtos.
 
@@ -37,7 +38,7 @@ Projeto_MeusMoveis/
 ├── js/
 │   ├── theme-toggle.js           # Gerenciador de tema Dark/Light com suporte a localStorage
 │   ├── catalog-search.js         # Busca instantânea em tempo real no catálogo
-│   ├── catalog-sort.js           # Motor de ordenação dinâmica instantânea (Mais vendidos, Lançamentos, A-Z)
+│   ├── catalog-sort.js           # Motor de ordenação dinâmica instantânea (Mais vendidos, Lançamentos, A-Z, Menor/Maior preço)
 │   ├── catalog-pagination.js     # Paginação instantânea no cliente com seletor de limite por página
 │   ├── cro-enhancements.js       # Motor de CRO, barra fixa mobile e gestão do FAB
 │   ├── mobile-drawer.js          # Gerenciador de navegação off-canvas para smartphones e tablets
@@ -113,37 +114,40 @@ A nova identidade visual substitui o tom laranja/marrom da loja original por uma
 
 ---
 
-## 4. Estratégia de Higienização e Supressão de Valores
+## 4. Arquitetura de Preços Oficiais e Preservação de Layout
 
-### 4.1. Elementos a Serem Ocultados e Removidos
-Todos os elementos com conotação financeira são suprimidos do DOM ou ocultados de forma irreversível:
+### 4.1. Exibição dos Valores Oficiais nos Cards e Modal Quick-View
+Com a migração de hospedagem aprovada pelo Product Owner, os preços oficiais originais passam a ser exibidos de forma padronizada, mantendo os filtros laterais legados ocultos e preservando o CTA do WhatsApp:
 
-| Elemento no Original | Seletor CSS / Alvo | Ação Técnica |
+| Elemento no Original | Seletor CSS / Alvo | Ação Técnica Atual |
 | :--- | :--- | :--- |
-| Preço de Venda do Card | `.product-card-price`, `.currentPrice` | Removido / Substituído pelo CTA WhatsApp |
-| Parcelamento e PIX | `.installment-plan`, `.cdm-pix` | Removido do DOM |
-| Slider de Preço na Sidebar | `.sidebar-filter-block.filter--price` | Bloco completamente removido do HTML |
-| Opções de Ordenação por Preço | `select[name="sort"] option[value*="price"]` | Removidas do elemento `<select>` |
-| Opção de Maior Desconto | `select[name="sort"] option[value="maxdiscount"]` | Removida do elemento `<select>` |
+| Preço de Venda do Card | `.product-card-price`, `.price[data-element="sale-price"]` | Extraído das 7 fontes, normalizado e exibido acima do CTA WhatsApp |
+| Parcelamento e PIX | `.installment-plan`, `.cdm-pix` | Exibidos em 10x sem juros + destaque PIX com tipografia Elegance Blue |
+| Modal Quick-View | `#modal-price-box` (`js/product-modal.js`) | Alimentado sincronamente via `window.RJ_PRODUCTS_DATA` (`price`) |
+| Busca Inteligente | `.rj-search-item-price` (`js/catalog-search.js`) | Exibe preço principal e PIX nas sugestões em tempo real |
+| Ordenação por Preço | `#rj-select-sort` (`pricelow`, `pricemax`) | Ordenação em memória O(N log N) usando `data-price` |
+| Slider de Preço na Sidebar | `.sidebar-filter-block.filter--price` | Mantido oculto/removido em favor do layout limpo |
 
 ### 4.2. Manutenção do Alinhamento do Grid (Anti-Quebra Visual)
-No layout original, o bloco de preço `.product-card-price` ocupava uma altura mínima de aproximadamente `58px`. A sua remoção abrupta poderia desalinhá-los em telas grandes.
-
-**Solução de Design:**
-O container `.foot-card` passa a abrigar exclusivamente o botão CTA **"Chame no WhatsApp agora"**, mantendo altura uniforme e ancorado na base do card com `display: flex; flex-direction: column; justify-content: flex-end;`.
+O container `.foot-card` ancora na base do card via `margin-top: auto; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px;`, acomodando o bloco `.product-card-price` (com separador sutil, preço principal, `10x sem juros` e `PIX` em linha dedicada) imediatamente acima do botão `.btn-whatsapp-cta`.
 
 ```css
 /* css/custom.css */
-.product-card-price,
 .sidebar-filter-block.filter--price,
-.jc-card--buy .currentPrice {
+.jc-card--buy .currentPrice,
+.jc-card--buy .product-details-action,
+#f-filter-price {
     display: none !important;
 }
 
+.storefront-cards.product-card .foot-card,
 .foot-card {
-    padding-top: 12px;
-    margin-top: auto;
-    width: 100%;
+    margin-top: auto !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
 }
 ```
 
@@ -246,16 +250,17 @@ Para proporcionar uma interface limpa, focada e sem poluição visual:
 2. **Eliminação do Alternador de Modo de Exibição (`.collection-view-mode`):** Removidos todos os botões de alternância de visualização (`?view=grid`, `?view=list`). O catálogo é apresentado exclusivamente em formato de cards visuais.
 3. **Motor de Ordenação Dinâmica Instantânea (`#rj-select-sort`):**
    - Implementado no cliente em `js/catalog-sort.js` sem requisição ao servidor.
-   - Suporta 3 critérios oficiais derivados do catálogo principal:
+   - Suporta 5 critérios oficiais:
      - **Mais vendidos (`bestsellers`):** Preserva a curadoria de destaque original da loja.
      - **Novos lançamentos (`new`):** Ordena os produtos de forma decrescente pelo identificador `data-id` (IDs mais recentes primeiro).
      - **Nome do produto (`name`):** Ordena alfabeticamente de A a Z utilizando `localeCompare('pt-BR', { sensitivity: 'base', numeric: true })`.
+     - **Menor preço (`pricelow`):** Ordena do menor para o maior valor numérico (`data-price`).
+     - **Maior preço (`pricemax`):** Ordena do maior para o menor valor numérico (`data-price`).
    - **Arquitetura de Alta Performance (60 FPS / Zero Congelamento de Aba):**
      - **Batch DOM Update via DocumentFragment:** Em vez de realizar 523 `appendChild` no DOM vivo (o que provocava Forced Synchronous Layout / Layout Thrashing), os cards ordenados são montados em memória fora da árvore DOM e anexados em uma **única operação atômica de reflow**.
      - **Paginação Linear O(N):** O motor de paginação utiliza uma passada única sobre os elementos com verificação prévia de estado de classe, evitando mais de 270.000 buscas com `indexOf` e eliminando manipulações desnecessárias de estilo.
      - **Desacoplamento Assíncrono da UI:** A execução do cálculo é descolada da thread principal através de um micro-tick (`setTimeout 16ms`), permitindo que a interface do usuário feche o menu dropdown nativo instantaneamente com feedback visual sutil de opacidade.
      - **Isolamento de Formulários:** Remoção completa da tag `<form>` em torno dos controles, prevenindo submissões fantasmas e interferência de handlers legados de e-commerce (`blockUI`).
-   - **Zero Preços:** Opções de menor preço, maior preço e maior desconto foram suprimidas de acordo com o protocolo de governança.
 
 ---
 
@@ -306,8 +311,8 @@ O script centraliza a telemetria em um único arquivo modular, com auto-carregam
 ## 12. Modal Flutuante de Detalhes do Produto (`js/product-modal.js`)
 
 ### 12.1. Propósito e Requisitos de Negócio
-- **Substituição de Páginas Externas:** Transforma as páginas únicas e lentas de cada item em janelas/cards flutuantes (Quick-View Modal), exibindo apenas as informações de valor: fotos em alta resolução, vídeos e especificações técnicas de medidas e conforto.
-- **Zero Exibição de Valores:** Supressão absoluta de preços, parcelas, PIX ou cartões dentro das descrições.
+- **Substituição de Páginas Externas:** Transforma as páginas únicas e lentas de cada item em janelas/cards flutuantes (Quick-View Modal), exibindo fotos em alta resolução, vídeos, preços oficiais (à vista, 10x sem juros e PIX), especificações técnicas de medidas e conforto.
+- **Bloco de Preços no Modal (`#modal-price-box`):** Exibe o valor principal, parcelamento em 10x sem juros e destaque de desconto no PIX diretamente abaixo do título e acima dos botões do WhatsApp.
 - **Vídeo Sob Demanda (Lazy Load):** Quando o produto possui vídeo gravado no YouTube, o player não é carregado previamente para economizar banda e tempo de renderização; ele é ativado exclusivamente mediante clique no botão *"Assistir Vídeo do Produto"*.
 - **Conversão Humanizada:** CTA em verde WhatsApp (`#25D366`) que abre diretamente o contato com mensagem contendo o nome exato do item selecionado.
 

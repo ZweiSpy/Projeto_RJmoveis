@@ -13,6 +13,7 @@ function initPagination() {
 
     // Seletor existente no cabeçalho da coleção (limit)
     const limitSelect = document.querySelector('select[name="limit"]') || document.getElementById('rj-select-per-page');
+    const limitWrap = limitSelect ? limitSelect.closest('.collection-limit') : null;
 
     // Se for uma página vitrine curta (ex: home com 12 itens), não requer paginação
     const isShowcase = cards.length <= 12 && (
@@ -22,13 +23,23 @@ function initPagination() {
     );
 
     if (isShowcase) {
-        if (limitSelect && limitSelect.closest('.collection-limit')) {
-            limitSelect.closest('.collection-limit').style.display = 'none';
+        if (limitWrap) {
+            limitWrap.classList.add('rj-limit-hidden');
+            limitWrap.style.setProperty('display', 'none', 'important');
         }
         return; // Todos os 12 cards permanecem visíveis sem paginação
     }
 
-    // Configura opções do select de limite caso não possua 24
+    // Se a categoria possui 24 ou menos produtos (ex: Painéis 13, Salas 23), oculta seletor de limite sem efeito
+    if (cards.length <= 24 && limitWrap) {
+        limitWrap.classList.add('rj-limit-hidden');
+        limitWrap.style.setProperty('display', 'none', 'important');
+    } else if (limitWrap) {
+        limitWrap.classList.remove('hide-on-small-and-down');
+        limitWrap.classList.remove('rj-limit-hidden');
+    }
+
+    // Configura opções do select de limite caso não possua 24 ou opções extras
     if (limitSelect) {
         // Desativa submissão de formulário legado
         const parentForm = limitSelect.closest('form');
@@ -39,15 +50,30 @@ function initPagination() {
         limitSelect.removeAttribute('onchange');
         limitSelect.onchange = null;
 
-        // Garante que a opção 24 existe
-        let has24 = false;
-        Array.from(limitSelect.options).forEach(opt => {
-            if (opt.value === '24') has24 = true;
-        });
+        const existingValues = new Set(Array.from(limitSelect.options).map(opt => opt.value));
+        if (!existingValues.has('24')) {
+            limitSelect.add(new Option('24 por página', '24'), 0);
+        }
+        if (cards.length > 84 && !existingValues.has('120')) {
+            limitSelect.add(new Option('120 por página', '120'));
+        }
+        if (cards.length > 24 && !existingValues.has('all')) {
+            limitSelect.add(new Option(`Ver todos (${cards.length})`, 'all'));
+        }
+    }
 
-        if (!has24) {
-            const opt24 = new Option('24 por página', '24');
-            limitSelect.add(opt24, 0);
+    // Elemento de contagem ao vivo na toolbar superior (desktop/tablet)
+    let toolbarCountEl = document.getElementById('rj-toolbar-count');
+    const toolbarEl = limitSelect && limitSelect.closest ? limitSelect.closest('.collection-header') : null;
+    if (!toolbarCountEl && toolbarEl && typeof toolbarEl.insertBefore === 'function') {
+        toolbarCountEl = document.createElement('div');
+        toolbarCountEl.id = 'rj-toolbar-count';
+        toolbarCountEl.className = 'rj-toolbar-count';
+        const limitGroup = limitWrap ? limitWrap.parentNode : null;
+        if (limitGroup && limitGroup.parentNode === toolbarEl) {
+            toolbarEl.insertBefore(toolbarCountEl, limitGroup);
+        } else {
+            toolbarEl.appendChild(toolbarCountEl);
         }
     }
 
@@ -120,6 +146,13 @@ function initPagination() {
                         card.classList.remove('page-hidden');
                         card.style.removeProperty('display');
                     }
+                    const lazyImgs = card.querySelectorAll('img[loading="lazy"]');
+                    for (let j = 0; j < lazyImgs.length; j++) {
+                        lazyImgs[j].loading = 'eager';
+                        if (typeof lazyImgs[j].setAttribute === 'function') {
+                            lazyImgs[j].setAttribute('loading', 'eager');
+                        }
+                    }
                 } else {
                     if (!card.classList.contains('page-hidden')) {
                         card.classList.add('page-hidden');
@@ -130,11 +163,17 @@ function initPagination() {
             }
         }
 
-        // Atualiza texto informativo
+        // Atualiza texto informativo no rodapé e na toolbar superior
         if (totalItems > 0) {
             counterInfo.innerHTML = `Mostrando <strong>${startIndex + 1}</strong>–<strong>${endIndex}</strong> de <strong>${totalItems}</strong> móveis (Página <strong>${currentPage}</strong> de <strong>${totalPages}</strong>)`;
+            if (toolbarCountEl) {
+                toolbarCountEl.innerHTML = `Exibindo <strong>${startIndex + 1}–${endIndex}</strong> de <strong>${totalItems}</strong>`;
+            }
         } else {
             counterInfo.innerHTML = `Nenhum produto exibido.`;
+            if (toolbarCountEl) {
+                toolbarCountEl.innerHTML = `<strong>0</strong> móveis exibidos`;
+            }
         }
 
         // Renderiza botões numéricos
@@ -212,7 +251,14 @@ function initPagination() {
     // Seletor de limite por página (ouve tanto 'change' quanto 'input')
     if (limitSelect) {
         const handleLimitChange = function(e) {
-            const val = parseInt(e.target.value, 10);
+            const rawVal = e.target.value;
+            if (rawVal === 'all') {
+                itemsPerPage = Math.max(cards.length, 1);
+                currentPage = 1;
+                renderPage();
+                return;
+            }
+            const val = parseInt(rawVal, 10);
             if (!isNaN(val) && val > 0) {
                 itemsPerPage = val;
                 currentPage = 1;

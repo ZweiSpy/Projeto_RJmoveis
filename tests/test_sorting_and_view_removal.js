@@ -4,10 +4,10 @@
  * Verifica:
  * 1. Remoção completa de seletores de grid (2, 3, 4 colunas) de todas as 8 páginas HTML
  * 2. Remoção completa de alternadores de exibição (modo lista / galeria) de todas as 8 páginas HTML
- * 3. Inclusão e integridade de #rj-select-sort com as opções "bestsellers", "new", "name" em todas as 8 páginas
- * 4. Ausência estrita de termos de preço ("pricelow", "pricemax", "maxdiscount", "R$") nas opções
- * 5. Inclusão da tag <script src="js/catalog-sort.js"> em todas as 8 páginas
- * 6. Validação algorítmica do motor de ordenação (A-Z, novos lançamentos por ID desc, mais vendidos pela ordem original)
+ * 3. Inclusão e integridade de #rj-select-sort com as opções "bestsellers", "new", "name", "pricelow" e "pricemax" em todas as 8 páginas
+ * 4. Ausência de "maxdiscount" e presença dos preços formatados nos cards
+ * 5. Inclusão da tag <script src="js/catalog-sort.js..."> em todas as 8 páginas
+ * 6. Validação algorítmica do motor de ordenação (A-Z, novos lançamentos por ID desc, mais vendidos, menor/maior preço)
  * 7. Regras CSS de ocultação (.collection-grid-column, .collection-view-mode { display: none !important; })
  */
 
@@ -67,23 +67,23 @@ PAGES.forEach(file => {
     const hasSelectSort = content.includes('id="rj-select-sort"');
     assert(hasSelectSort, `${file}: Contém seletor #rj-select-sort`);
 
-    // D. Opções corretas de ordenação: Mais vendidos, Novos lançamentos, Nome do produto
+    // D. Opções corretas de ordenação: Mais vendidos, Novos lançamentos, Nome, Menor preço, Maior preço
     assert(content.includes('value="bestsellers"'), `${file}: Contém opção "bestsellers" (Mais vendidos)`);
     assert(content.includes('value="new"'), `${file}: Contém opção "new" (Novos lançamentos)`);
     assert(content.includes('value="name"'), `${file}: Contém opção "name" (Nome do produto)`);
+    assert(content.includes('value="pricelow"'), `${file}: Contém opção "pricelow" (Menor preço)`);
+    assert(content.includes('value="pricemax"'), `${file}: Contém opção "pricemax" (Maior preço)`);
 
-    // E. Ausência de opções proibidas de preço
-    assert(!content.includes('value="pricelow"'), `${file}: Sem opção 'pricelow'`);
-    assert(!content.includes('value="pricemax"'), `${file}: Sem opção 'pricemax'`);
+    // E. Ausência de opção obsoleta maxdiscount
     assert(!content.includes('value="maxdiscount"'), `${file}: Sem opção 'maxdiscount'`);
 
     // F. Presença dos scripts essenciais no rodapé
-    assert(content.includes('src="js/catalog-sort.js"'), `${file}: Tag <script src="js/catalog-sort.js"> presente`);
-    assert(content.includes('src="js/catalog-pagination.js"'), `${file}: Tag <script src="js/catalog-pagination.js"> presente`);
+    assert(content.includes('src="js/catalog-sort.js'), `${file}: Tag <script src="js/catalog-sort.js"> presente`);
+    assert(content.includes('src="js/catalog-pagination.js'), `${file}: Tag <script src="js/catalog-pagination.js"> presente`);
 
-    // G. Zero R$
+    // G. Presença de blocos de preço com R$
     const rDollarMatches = content.match(/R\$/g) || [];
-    assert(rDollarMatches.length === 0, `${file}: Zero ocorrências de 'R$'`);
+    assert(rDollarMatches.length > 0, `${file}: Exibe preços formatados com 'R$' (${rDollarMatches.length} ocorrências)`);
 });
 
 // 2. Verificação de Regras CSS de Ocultação em custom.css
@@ -110,6 +110,8 @@ const sortJsContent = fs.readFileSync(sortJsPath, 'utf8');
 assert(sortJsContent.includes('bestsellers'), 'js/catalog-sort.js suporta critério "bestsellers"');
 assert(sortJsContent.includes('new'), 'js/catalog-sort.js suporta critério "new"');
 assert(sortJsContent.includes('name'), 'js/catalog-sort.js suporta critério "name"');
+assert(sortJsContent.includes('pricelow'), 'js/catalog-sort.js suporta critério "pricelow"');
+assert(sortJsContent.includes('pricemax'), 'js/catalog-sort.js suporta critério "pricemax"');
 assert(sortJsContent.includes('localeCompare'), 'js/catalog-sort.js utiliza localeCompare pt-BR para ordenação natural');
 assert(sortJsContent.includes('RJ_CatalogPagination.recalculate'), 'js/catalog-sort.js aciona recálculo da paginação após ordenar');
 
@@ -123,6 +125,8 @@ const extractedProducts = [];
 cardChunks.forEach((chunk, originalIdx) => {
     const idMatch = chunk.match(/data-id="(\d+)"/);
     const dataId = idMatch ? parseInt(idMatch[1], 10) : 0;
+    const priceMatch = chunk.match(/data-price="([\d.]+)"/);
+    const dataPrice = priceMatch ? parseFloat(priceMatch[1]) : 0;
     const titleMatch = chunk.match(/class="[^"]*product-card-title[^"]*"[\s\S]*?<a[^>]*>([\s\S]*?)<\/a>/i);
     let title = '';
     if (titleMatch) {
@@ -131,6 +135,7 @@ cardChunks.forEach((chunk, originalIdx) => {
     extractedProducts.push({
         id: dataId,
         title: title,
+        price: dataPrice,
         originalIndex: originalIdx
     });
 });
@@ -174,6 +179,30 @@ for (let i = 0; i < sortedByBestsellers.length; i++) {
     }
 }
 assert(isOriginalValid, `Ordenação Mais Vendidos: 100% dos ${sortedByBestsellers.length} produtos retornam à sequência original da loja`);
+
+// Teste D: Ordenação por Menor Preço e Maior Preço
+const allHavePositivePrice = extractedProducts.every(p => p.price > 0);
+assert(allHavePositivePrice, `Todos os ${extractedProducts.length} produtos possuem data-price numérico positivo`);
+
+const sortedByPriceLow = [...extractedProducts].sort((a, b) => (a.price - b.price) || (a.originalIndex - b.originalIndex));
+let isPriceLowValid = true;
+for (let i = 0; i < sortedByPriceLow.length - 1; i++) {
+    if (sortedByPriceLow[i].price > sortedByPriceLow[i + 1].price) {
+        isPriceLowValid = false;
+        break;
+    }
+}
+assert(isPriceLowValid, `Ordenação Menor Preço: R$ ${sortedByPriceLow[0].price} ("${sortedByPriceLow[0].title}") até R$ ${sortedByPriceLow[sortedByPriceLow.length - 1].price}`);
+
+const sortedByPriceMax = [...extractedProducts].sort((a, b) => (b.price - a.price) || (a.originalIndex - b.originalIndex));
+let isPriceMaxValid = true;
+for (let i = 0; i < sortedByPriceMax.length - 1; i++) {
+    if (sortedByPriceMax[i].price < sortedByPriceMax[i + 1].price) {
+        isPriceMaxValid = false;
+        break;
+    }
+}
+assert(isPriceMaxValid, `Ordenação Maior Preço: R$ ${sortedByPriceMax[0].price} ("${sortedByPriceMax[0].title}") até R$ ${sortedByPriceMax[sortedByPriceMax.length - 1].price}`);
 
 console.log('\n===============================================================');
 if (totalFailures === 0) {

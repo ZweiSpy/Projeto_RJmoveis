@@ -389,5 +389,15 @@ Este documento serve como o plano de execução ativo para o desenvolvimento e t
     - Injetado bloco `<style id="rj-mobile-critical-css">` inline diretamente no `<head>` das 8 páginas oficiais, garantindo renderização instantânea do menu hambúrguer e da busca de 100% no exato milissegundo de carregamento do HTML.
     - Aplicado cache-busting versionado (`?v=2.2.0`) em todas as tags de CSS e scripts das 8 páginas oficiais.
     - Suíte `tests/test_responsiveness_audit.js` expandida para 89 testes automatizados com 100% de aprovação (89/89 PASS).
+- **2026-11-17 (Reintrodução dos Preços Oficiais nos Cards, Modal Quick-View e Ordenação por Preço):**
+  - **Extração e Normalização das 7 Páginas-Fonte:** Criado `scripts/extract_prices_and_update_data.js`, extraindo e normalizando os 523 preços completos (à vista, `10x sem juros` e `PIX`) diretamente de `site-catalogos-original.html` até `site-catalagos-pg7.html` e populando `data/products_details.json` + `js/products-data.js`.
+  - **Injeção Cirúrgica nas 8 Páginas HTML:** Criado `scripts/inject_prices_all_pages.js`, injetando `data-price` e `.product-card-price` acima do botão `.btn-whatsapp-cta` em 100% dos cards das 8 páginas com `Delta <div> === 0`, mantendo SEO/GEO, Drawer Mobile e Analytics intactos, além de atualizar `scripts/build_all_catalog_pages.js` e cache-busting para `v=2.3.0`.
+  - **Estilização Elegance Blue & Dark Mode:** Atualizados `css/tokens.css` e `css/custom.css` para exibir preço principal, parcelamento e badge PIX com alto contraste em Light e Dark Mode e adaptação para grid 2 colunas no mobile.
+  - **Modal Quick-View & Ordenação:** Atualizados `js/product-modal.js` (`#modal-price-box`) e `js/catalog-sort.js` (`pricelow` / `pricemax` com opções no seletor `#rj-select-sort`).
+  - **Governança & Testes:** Atualizados `AGENTS.md`, `README.md`, `SDD.md`, `Plan.md` e toda a suíte de testes automatizados para validar integridade dos preços, CTA WhatsApp e ordenação.
+  - **Refinamento Designer & Correção de Paginação/Busca (v2.4.0):**
+    - Corrigido o bug em `index.html`, `paineis.html` e `salas.html` onde `.collection-limit { display: flex !important; }` mantinha o seletor `24 por página` visível sem efeito (`rj-limit-hidden` + `<= 24` itens), além de liberar o seletor no mobile e adicionar opções `120` e `Ver todos` nas páginas com mais de 24 itens + contador ao vivo `#rj-toolbar-count`.
+    - Adicionados os preços oficiais (valor principal e valor no PIX) e miniaturas rápidas (`mainImage`) nos itens da Busca Inteligente (`js/catalog-search.js`).
+    - Corrigido carregamento da fonte `Plus Jakarta Sans` (link do Google Fonts anteriormente quebrado), redesenhados os painéis de preço dos cards, corrigidos selos esticados (`.product-card-marks`), removida barra de rolagem da sidebar (`DEPARTAMENTOS`), corrigido recorte do botão de tema no mobile Dark Mode, reposicionado `#back2Top` e eliminados erros legados de console (`consoleDebug` e `autoComplete`).
 
 
