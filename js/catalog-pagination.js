@@ -241,6 +241,10 @@ function initPagination() {
             currentPage = targetPage;
             renderPage();
 
+            if (window.RJ_Analytics && typeof window.RJ_Analytics.trackCatalogControl === 'function') {
+                window.RJ_Analytics.trackCatalogControl('pagination_page', String(targetPage), `Página ${targetPage}`);
+            }
+
             // Rolagem suave até o topo da grade
             const gridRect = grid.getBoundingClientRect();
             const targetY = window.pageYOffset + gridRect.top - 80;
@@ -250,19 +254,31 @@ function initPagination() {
 
     // Seletor de limite por página (ouve tanto 'change' quanto 'input')
     if (limitSelect) {
+        let lastTrackedLimit = limitSelect.value || '24';
         const handleLimitChange = function(e) {
             const rawVal = e.target.value;
             if (rawVal === 'all') {
-                itemsPerPage = Math.max(cards.length, 1);
+                const allCount = Math.max(cards.length, 1);
+                if (itemsPerPage === allCount && lastTrackedLimit === 'all') return;
+                itemsPerPage = allCount;
                 currentPage = 1;
+                lastTrackedLimit = 'all';
                 renderPage();
+                if (window.RJ_Analytics && typeof window.RJ_Analytics.trackCatalogControl === 'function') {
+                    window.RJ_Analytics.trackCatalogControl('items_per_page', 'all', `Ver todos (${allCount})`);
+                }
                 return;
             }
             const val = parseInt(rawVal, 10);
             if (!isNaN(val) && val > 0) {
+                if (itemsPerPage === val && lastTrackedLimit === String(val)) return;
                 itemsPerPage = val;
                 currentPage = 1;
+                lastTrackedLimit = String(val);
                 renderPage();
+                if (window.RJ_Analytics && typeof window.RJ_Analytics.trackCatalogControl === 'function') {
+                    window.RJ_Analytics.trackCatalogControl('items_per_page', String(val), `${val} por página`);
+                }
             }
         };
         limitSelect.addEventListener('change', handleLimitChange);

@@ -112,8 +112,8 @@ assert(hasCssJsRevalidate, 'vercel.json possui regra de revalidação imediata (
 pages.forEach(p => {
     const html = fs.readFileSync(p, 'utf8');
     assert(html.includes('id="rj-mobile-critical-css"'), `${p} contém CSS Crítico Mobile Inline (<style id="rj-mobile-critical-css">)`);
-    assert(html.includes('css/custom.css?v=2.4.0'), `${p} versionado com cache-busting v=2.4.0 em custom.css`);
-    assert(html.includes('js/mobile-drawer.js?v=2.4.0'), `${p} versionado com cache-busting v=2.4.0 em mobile-drawer.js`);
+    assert(html.includes('css/custom.css?v=2.5.0'), `${p} versionado com cache-busting v=2.5.0 em custom.css`);
+    assert(html.includes('js/mobile-drawer.js?v=2.5.0'), `${p} versionado com cache-busting v=2.5.0 em mobile-drawer.js`);
 });
 
 // --- RESUMO FINAL ---

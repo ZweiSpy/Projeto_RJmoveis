@@ -252,6 +252,9 @@
                 el.addEventListener('click', function (e) {
                     e.stopPropagation();
                     const id = this.getAttribute('data-id');
+                    if (window.RJ_Analytics && typeof window.RJ_Analytics.trackSearch === 'function') {
+                        window.RJ_Analytics.trackSearch(query, searchData.total, 'dropdown_select_item');
+                    }
                     openProductDetails(id);
                 });
 
@@ -267,7 +270,7 @@
             if (viewAllEl) {
                 viewAllEl.addEventListener('click', function (e) {
                     e.stopPropagation();
-                    executeGlobalSearch(query);
+                    executeGlobalSearch(query, 'view_all_click', searchData.total);
                 });
             }
         }
@@ -281,7 +284,7 @@
                 const prod = window.RJ_PRODUCTS_DATA ? window.RJ_PRODUCTS_DATA[String(productId)] : null;
                 const title = prod ? prod.title : '';
                 const img = prod ? (prod.mainImage || (prod.gallery && prod.gallery[0]) || '') : '';
-                window.RJProductModal.open(productId, title, img);
+                window.RJProductModal.open(productId, title, img, null, 'smart_search');
                 return;
             }
 
@@ -302,7 +305,7 @@
         }
 
         // 7. Execução da Busca Global (Enter no input ou botão de pesquisa)
-        function executeGlobalSearch(term) {
+        function executeGlobalSearch(term, triggerSource, suggestedTotal) {
             const cleanTerm = (term || searchInput.value || '').trim();
             closeSuggestions();
 
@@ -312,15 +315,22 @@
 
             // Se estiver no catálogo geral com todos os 523 itens: filtra os cards localmente
             if (isCatalogPage) {
-                filterGridCards(cleanTerm);
+                filterGridCards(cleanTerm, triggerSource);
             } else {
+                if (cleanTerm && window.RJ_Analytics && typeof window.RJ_Analytics.trackSearch === 'function') {
+                    window.RJ_Analytics.trackSearch(
+                        cleanTerm,
+                        typeof suggestedTotal === 'number' ? suggestedTotal : null,
+                        triggerSource || 'submit_redirect'
+                    );
+                }
                 // Se estiver na Home ou em categoria específica: navega para catalogo.html com ?q=
                 window.location.href = `catalogo.html?q=${encodeURIComponent(cleanTerm)}`;
             }
         }
 
         // 8. Filtragem dos Cards do Grid em catalogo.html
-        function filterGridCards(term) {
+        function filterGridCards(term, triggerSource) {
             const grid = document.getElementById('rj-products-grid') || document.querySelector('.collection-grid');
             if (!grid) return;
 
@@ -368,6 +378,10 @@
                     card.style.setProperty('display', 'none', 'important');
                 }
             });
+
+            if (window.RJ_Analytics && typeof window.RJ_Analytics.trackSearch === 'function') {
+                window.RJ_Analytics.trackSearch(term, visibleCount, triggerSource || 'grid_filter');
+            }
 
             feedbackEl.style.display = 'flex';
             if (visibleCount === 0) {

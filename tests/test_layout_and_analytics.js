@@ -5,10 +5,9 @@
  * 2. Catálogo completo com 523 itens
  * 3. Remoção do número de telefone do texto dos botões de WhatsApp
  * 4. Mensagem com indicação de origem do site ("Olá! Estava no site da RJ Móveis e quero...")
- * 5. Presença e sintaxe de js/analytics.js (Google, Meta, Vercel) e js/catalog-pagination.js
+ * 5. Presença e sintaxe de js/analytics.js (GA4, Microsoft Clarity, Meta) e js/catalog-pagination.js
  * 6. Regras de alinhamento uniforme de cards no css/custom.css
- * 7. Cláusula Pétrea: Zero "R$" em todas as 8 páginas
- * 8. Balanço de tags HTML (Delta <div> = 0)
+ * 7. Cláusula Pétrea: Preços oficiais injetados e balanço <div> = 0 em todas as 8 páginas
  */
 
 const fs = require('fs');
@@ -95,12 +94,16 @@ const analyticsContent = fs.readFileSync(analyticsPath, 'utf8');
 
 assert(analyticsContent.includes('RJ_ANALYTICS_CONFIG'), 'Possui objeto RJ_ANALYTICS_CONFIG para configuração rápida');
 assert(analyticsContent.includes('googleAnalyticsId'), 'Suporta integração com Google Analytics 4');
+assert(analyticsContent.includes('clarityProjectId'), 'Suporta integração com Microsoft Clarity');
 assert(analyticsContent.includes('metaPixelId'), 'Suporta integração com Meta Pixel');
-assert(analyticsContent.includes('vercelAnalytics'), 'Suporta integração com Vercel Analytics');
-assert(analyticsContent.includes('window.va'), 'Integra com window.va da Vercel');
+assert(analyticsContent.includes('window.clarity'), 'Integra com window.clarity do Microsoft Clarity');
 assert(analyticsContent.includes('window.gtag'), 'Integra com window.gtag do Google');
 assert(analyticsContent.includes('window.fbq'), 'Integra com window.fbq da Meta');
+assert(analyticsContent.includes('trackNavigationClick'), 'Rastreia cliques em links de navegação');
 assert(analyticsContent.includes('trackWhatsAppClick'), 'Rastreia conversões de clique no WhatsApp');
+assert(analyticsContent.includes('trackProductModalOpen'), 'Rastreia aberturas do modal Quick-View');
+assert(analyticsContent.includes('trackSearch'), 'Rastreia pesquisas na Busca Inteligente');
+assert(analyticsContent.includes('trackCatalogControl'), 'Rastreia interações de ordenação, paginação e tema');
 assert(analyticsContent.includes('relatorio: function'), 'Possui função relatorio() para consulta no console');
 
 console.log('');

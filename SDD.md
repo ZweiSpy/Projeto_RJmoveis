@@ -42,12 +42,15 @@ Projeto_MeusMoveis/
 │   ├── catalog-pagination.js     # Paginação instantânea no cliente com seletor de limite por página
 │   ├── cro-enhancements.js       # Motor de CRO, barra fixa mobile e gestão do FAB
 │   ├── mobile-drawer.js          # Gerenciador de navegação off-canvas para smartphones e tablets
-│   └── analytics.js              # Telemetria multicanal (GA4, Meta Pixel, Vercel Analytics)
+│   └── analytics.js              # Telemetria GitHub Pages (GA4, Microsoft Clarity, Meta Pixel & painel ?analytics=1)
 │
 ├── scripts/
-│   └── build_all_catalog_pages.js # Construtor mestre determinístico das 8 páginas
+│   ├── extract_prices_and_update_data.js # Extração dos 523 preços das fontes originais
+│   ├── inject_prices_all_pages.js        # Atualizador cirúrgico das 8 páginas HTML (v2.5.0)
+│   └── build_all_catalog_pages.js        # Construtor mestre determinístico das 8 páginas
 │
 ├── tests/
+│   ├── test_github_pages_analytics.js   # Suíte de telemetria GitHub Pages (GA4 + MS Clarity)
 │   ├── test_sorting_and_view_removal.js # Suíte de validação de ordenação e toolbar limpa
 │   ├── test_layout_and_analytics.js     # Suíte de validação de alinhamento e analytics
 │   ├── test_pagination_functional.js    # Suíte de testes funcionais de paginação
@@ -266,16 +269,16 @@ Para proporcionar uma interface limpa, focada e sem poluição visual:
 
 ## 9. Motor de Telemetria e Analytics (`js/analytics.js`)
 
-### 9.1. Suporte Plug-and-Play Multicanal
-O script centraliza a telemetria em um único arquivo modular, com auto-carregamento dinâmico:
-- **Google Analytics 4 (GA4):** Dispara `page_view` e evento de conversão `click_whatsapp` com `product_name`, `button_location` e URL.
-- **Meta Pixel (Facebook / Instagram):** Dispara `PageView` e evento customizado `WhatsAppClick`.
-- **Vercel Analytics:** Integração nativa com `window.va('event', ...)` para métricas na hospedagem Vercel.
-- **Armazenamento Local Autônomo:** Gravação dos últimos 200 eventos em `localStorage` para consulta independente.
+### 9.1. Suporte Multicanal no GitHub Pages (GA4 + Microsoft Clarity)
+O script centraliza a telemetria do catálogo estático (`rjmoveis.app.br`) em um único módulo com auto-carregamento assíncrono:
+- **Microsoft Clarity (`zftkkx1ir8`):** Injeção automática de `https://www.clarity.ms/tag/zftkkx1ir8`, gravações anônimas de sessão, mapas de calor e marcação por departamento (`page_department`), dispositivo (`device_type`) e eventos de conversão.
+- **Google Analytics 4 (GA4 — `G-8VNZNQ8C1K` / Prop. `416985372`):** Ativo via `gtag.js` (com guarda contra Property IDs puramente numéricos), enviando `page_view`, `navegacao_link` (`transport_type: 'beacon'`), `click_whatsapp`, `select_item`, `product_media_view`, `search`, `search_zero_results` e `catalog_interaction`.
+- **Meta Pixel (Opcional):** Suporte a `PageView` e `WhatsAppClick` caso `metaPixelId` seja informado.
+- **Auditoria Local por Dia:** Agrupa eventos recentes (até 250) e contadores diários (`YYYY-MM-DD`) no `localStorage` para conferência autônoma.
 
-### 9.2. Consulta de Relatórios
-- **No Console:** Digitar `RJ_Analytics.relatorio()` exibe tabela formatada com total de visualizações, cliques no WhatsApp, páginas mais acessadas e produtos mais procurados.
-- **Na URL:** Adicionar `?analytics=1` em qualquer página imprime o relatório automaticamente.
+### 9.2. Consulta de Relatórios & Painel Diagnóstico
+- **No Console:** Digitar `RJ_Analytics.relatorio()` exibe tabelas com resumo diário, páginas mais acessadas, links clicados, produtos abertos e CTAs WhatsApp.
+- **Na Tela (`?analytics=1`):** Adicionar `?analytics=1` em qualquer URL abre o painel flutuante `#rj-analytics-diagnostic` em tempo real com status de integração GA4/Clarity e métricas do navegador atual.
 
 ---
 
@@ -458,33 +461,17 @@ Para maximizar as conversões sem violar as restrições inegociáveis (zero exi
 
 ---
 
-## 17. Integração Vercel Web Analytics & Speed Insights
+## 17. Arquitetura de Telemetria no GitHub Pages (`rjmoveis.app.br`)
 
-Para aplicações estáticas de alta velocidade, a telemetria da Vercel opera de forma assíncrona e desacoplada da thread principal:
+Como o **GitHub Pages** serve apenas ativos estáticos sem painel server-side de visitas nem edge scripts da Vercel (`/_vercel/*` removidos de todas as 8 páginas para evitar erros `404`), a coleta ocorre 100% no cliente por meio de `js/analytics.js`:
 
-### 17.1. Stubs Assíncronos & Fila de Eventos
-- O `<head>` de todas as páginas inicializa os stubs oficiais da Vercel antes de qualquer script pesado:
-  ```html
-  <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
-  ```
-- **Zero Latência:** Chamadas a `window.va('event', ...)` feitas por `js/analytics.js` nunca falham nem atrasam a renderização: se o script da Edge Network ainda não terminou de baixar, o evento é enfileirado em `window.vaq` e processado imediatamente assim que o script é montado.
+### 17.1. Rastreamento Unificado de Cliques, Navegação e Conversões
+- **Links de Navegação (`navegacao_link` / `nav_link_click`):** Listener em fase de captura identifica região (`header_logo`, `header_nav`, `mobile_drawer_brand`, `mobile_drawer_nav`, `breadcrumb`, `sidebar_departamento`, `home_banner_catalogo`, `mobile_sticky_catalogo`, `rodape_departamentos`, `rodape_atendimento`, `rodape_credito`) e utiliza `transport_type: 'beacon'` no GA4 para evitar perda ao trocar de página. Links internos de `.product-card` são ignorados pela captura genérica porque o `product-modal.js` registra a abertura do modal diretamente via `select_item`.
+- **Conversões WhatsApp (`click_whatsapp` / `whatsapp_click`):** Diferencia origem exata (`card_produto_whatsapp`, `modal_whatsapp`, `modal_frete_whatsapp`, `busca_whatsapp`, `busca_vazia_whatsapp`, `cro_bubble_whatsapp`, `mobile_sticky_whatsapp`, `floating_whatsapp_fab`, `header_whatsapp`, `sidebar_consultor_whatsapp`, `footer_cta_whatsapp`).
+- **Produtos, Busca & Controles:** Abertura do Modal Quick-View (`select_item`), troca de fotos/vídeo (`product_media_view`), buscas com contagem de resultados (`search` / `search_zero_results`) e alterações de ordenação, itens/página, paginação, tema e menu drawer (`catalog_interaction`).
 
-### 17.2. Eventos Customizados de Conversão no WhatsApp
-- Além de visualizações de página, a Vercel registra os eventos de conversão comercial:
-  - `name: 'whatsapp_click'`
-  - `data.product`: Nome exato do móvel consultado.
-  - `data.location`: Local de origem do clique (`card_produto`, `modal_detalhes`, `barra_mobile`, `balao_flutuante`, `cabecalho`, `rodape`).
-  - `data.page`: URL da página de origem.
-
-### 17.3. Configuração de Deploy (`vercel.json`)
-- Habilita `cleanUrls: true` para rotas limpas sem `.html`.
-- Define políticas de cache imutável (`Cache-Control: public, max-age=31536000, immutable`) para ativos estáticos com hash/versão (`.js`, `.css`, `.png`, `.jpg`, `.svg`).
-- Aplica cabeçalhos de segurança HTTP (`X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection`).
+### 17.2. Validação Automatizada (`tests/test_github_pages_analytics.js`)
+- Garante ausência completa de `/_vercel/insights/script.js`, `/_vercel/speed-insights/script.js` e `matomo.js` nas 8 páginas, presença de `js/analytics.js?v=2.5.0`, carregamento automático de `clarity.ms/tag/zftkkx1ir8` e proteção contra Property IDs numéricos no campo de Measurement ID do GA4.
 
 ---
 

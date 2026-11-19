@@ -27,6 +27,9 @@
             document.body.classList.add('rj-drawer-open');
             toggleBtn.setAttribute('aria-expanded', 'true');
             if (closeBtn) closeBtn.focus();
+            if (window.RJ_Analytics && typeof window.RJ_Analytics.trackCatalogControl === 'function') {
+                window.RJ_Analytics.trackCatalogControl('mobile_drawer', 'open', 'Menu Mobile');
+            }
         }
 
         function closeDrawer() {

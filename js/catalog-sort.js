@@ -101,6 +101,13 @@ function initCatalogSort() {
         const val = sortSelect ? sortSelect.value : '';
         if (!val || val === currentSort) return;
 
+        const selectedOpt = sortSelect && sortSelect.options && sortSelect.selectedIndex >= 0
+            ? sortSelect.options[sortSelect.selectedIndex]
+            : null;
+        if (window.RJ_Analytics && typeof window.RJ_Analytics.trackCatalogControl === 'function') {
+            window.RJ_Analytics.trackCatalogControl('sort', val, selectedOpt ? selectedOpt.textContent.trim() : val);
+        }
+
         // Transição suave de opacidade durante a reorganização (feedback tátil de carregamento sem travar)
         grid.style.opacity = '0.7';
         grid.style.transition = 'opacity 0.12s ease';

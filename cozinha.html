@@ -6538,17 +6538,10 @@
             } catch (e) {}
         })();
     </script>
-
-    <!-- Vercel Web Analytics & Speed Insights Oficiais -->
-    <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-    <script defer src="/_vercel/speed-insights/script.js"></script>
+    <!-- Telemetria GitHub Pages (GA4 + Microsoft Clarity via js/analytics.js) -->
     <!-- Estilos Oficiais RJ Móveis & Design Tokens (Elegance Blue) -->
-    <link rel="stylesheet" href="css/tokens.css?v=2.4.0">
-    <link rel="stylesheet" href="css/custom.css?v=2.4.0">
+    <link rel="stylesheet" href="css/tokens.css?v=2.5.0">
+    <link rel="stylesheet" href="css/custom.css?v=2.5.0">
     <!-- ==================================================================== -->
     <!-- CSS CRÍTICO MOBILE INLINE (IMUNIDADE TOTAL A CACHE & ZERO LATÊNCIA) -->
     <!-- ==================================================================== -->
@@ -10379,7 +10372,7 @@
         </div>
     </aside>
 
-    <script> /* VALIDATE CUSTOMER-LOGIN */ $(document).ready(function () { var validCustomer = $.cookie("customer"); if (validCustomer != null) { validCustomer = JSON.parse(validCustomer); nameCustomer = html_entity_decode(validCustomer.name); nameCustomer = nameCustomer.replace("+", " "); $(".logged-out").hide(); $(".logged-in").show(); $(".logged-in .custumer-name").text(nameCustomer); } else { $(".logged-out").show(); $(".logged-in").hide(); } /* AUTOCOMPLETE */ if ($.fn && $.fn.autoComplete) $("#keywords, #frmbusca-mobi").autoComplete({ menuClass: "suggestions-fixed", buttons: false, }); /*SEARCHBAR ACTIONS*/ $(".header-search").on("click", function () { $(".header-search-open").addClass("action-search"); }); $(".header-close-search").on("click", function () { $(".header-search-open").removeClass("action-search"); }); });</script>
+    <script> /* VALIDATE CUSTOMER-LOGIN */ $(document).ready(function () { var validCustomer = $.cookie("customer"); if (validCustomer != null) { validCustomer = JSON.parse(validCustomer); nameCustomer = html_entity_decode(validCustomer.name); nameCustomer = nameCustomer.replace("+", " "); $(".logged-out").hide(); $(".logged-in").show(); $(".logged-in .custumer-name").text(nameCustomer); } else { $(".logged-out").show(); $(".logged-in").hide(); } /* AUTOCOMPLETE */ if ($.fn && $.fn.autoComplete) if ($.fn && $.fn.autoComplete) $("#keywords, #frmbusca-mobi").autoComplete({ menuClass: "suggestions-fixed", buttons: false, }); /*SEARCHBAR ACTIONS*/ $(".header-search").on("click", function () { $(".header-search-open").addClass("action-search"); }); $(".header-close-search").on("click", function () { $(".header-search-open").removeClass("action-search"); }); });</script>
     <script> /* BUSCA POR VOZ */ (function () { var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; var micBtn = document.querySelector(".header-search .header-voice-search"); var input = document.getElementById("keywords"); var form = document.getElementById("frmbusca"); if (!micBtn || !input || !form) return; /* Sem suporte do navegador: mantem o botao escondido, nao quebra nada */ if (!SpeechRecognition) return; micBtn.hidden = false; var recognition = new SpeechRecognition(); recognition.lang = "pt-BR"; recognition.interimResults = true; recognition.continuous = false; recognition.maxAlternatives = 1; var listening = false; var manualStop = false; var gotResult = false; var restarted = false; var originalPlaceholder = input.getAttribute("placeholder") || ""; function setListeningUI(on) { listening = on; micBtn.classList.toggle("listening", on); form.classList.toggle("voice-listening", on); micBtn.setAttribute("aria-pressed", on ? "true" : "false"); input.setAttribute("placeholder", on ? "Ouvindo..." : originalPlaceholder); } function fireSearch() { if (typeof form.requestSubmit === "function") { form.requestSubmit(); } else { form.submit(); } } micBtn.addEventListener("click", function () { if (listening) { manualStop = true; recognition.stop(); return; } manualStop = false; gotResult = false; restarted = false; try { recognition.start(); } catch (e) { /* start() lanca se ja estiver ativo; ignora */ } }); recognition.onstart = function () { setListeningUI(true); }; recognition.onresult = function (event) { var transcript = ""; var isFinal = false; for (var i = event.resultIndex; i < event.results.length; i++) { transcript += event.results[i][0].transcript; if (event.results[i].isFinal) isFinal = true; } transcript = transcript.trim(); if (!transcript) return; gotResult = true; input.value = transcript; /* atualiza o autocomplete em tempo real */ input.dispatchEvent(new Event("input", { bubbles: true })); if (isFinal) { manualStop = true; recognition.stop(); /* disparo automatico da busca */ fireSearch(); } }; recognition.onerror = function (event) { if (event.error === "not-allowed" || event.error === "service-not-allowed") { manualStop = true; alert("Para usar a busca por voz, permita o acesso ao microfone."); } }; recognition.onend = function () { setListeningUI(false); /* Safari/iOS as vezes corta a fala cedo: reinicia uma vez se nada foi captado */ if (!gotResult && !manualStop && !restarted) { restarted = true; try { recognition.start(); } catch (e) { } } }; })();</script>
     <script> /* HEADER FIXO - descendo: o header rola junto; quando sai inteiro da tela, a versao compacta desce deslizando (.fixed -> .is-shown, transicao no CSS). - subindo: o fixo so e desfeito quando a altura dele coincide com o pedaco visivel do header original, entao a troca acontece no mesmo lugar, sem vao e sem pulo. - o espacador guarda a altura exata do header-body enquanto ele esta fora do fluxo. */ $(function () { var body = document.querySelector(".header-body"); var spacer = document.querySelector(".header-spacer"); if (!body || !spacer) return; var fixed = false; var ticking = false; var bodyTop = 0; var bodyH = 0; var fixedH = 0; function offerTop() { var offer = document.getElementById("cart-offer"); return offer && offer.offsetParent !== null ? offer.offsetHeight : 0; } function measure() { var rect = body.getBoundingClientRect(); bodyTop = rect.top + window.pageYOffset; bodyH = rect.height; } function fix(animate) { fixed = true; var docH = document.documentElement.scrollHeight; spacer.style.height = bodyH + "px"; body.style.top = offerTop() + "px"; body.classList.add("fixed"); if ($(".header-menu").hasClass("extended")) body.classList.add("extended"); /* margens que vazavam do header-body (ex.: 30px do #menu) somem quando ele sai do fluxo: completa o espacador com a diferenca pra pagina nao subir */ var diff = docH - document.documentElement.scrollHeight; if (diff) spacer.style.height = (bodyH + diff) + "px"; fixedH = body.getBoundingClientRect().height; if (!animate) { body.classList.add("is-shown"); return; } /* dois frames: o navegador pinta o estado escondido antes de liberar a transicao */ requestAnimationFrame(function () { requestAnimationFrame(function () { if (fixed) body.classList.add("is-shown"); }); }); } function unfix() { fixed = false; body.classList.remove("fixed", "extended", "is-shown"); body.style.top = ""; spacer.style.height = "0px"; $(".bars-cab-scroll").css("display", "none"); $(".header-menu").removeClass("menu-hide"); } function update(animate) { ticking = false; var y = window.pageYOffset; if (!fixed) { measure(); if (y > bodyTop + bodyH) fix(animate); } else if (y <= bodyTop + bodyH - fixedH - offerTop()) { unfix(); } } update(false); window.addEventListener("scroll", function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { update(true); }); }, { passive: true }); window.addEventListener("resize", function () { if (fixed) unfix(); update(false); }); });</script>
     <style>
@@ -13965,15 +13958,15 @@
     </a>
 
     <!-- SCRIPTS OFICIAIS RJ MÓVEIS (TELEMETRIA, TEMA, BUSCA, ORDENAÇÃO E PAGINAÇÃO) -->
-    <script src="js/analytics.js?v=2.4.0"></script>
-    <script src="js/theme-toggle.js?v=2.4.0"></script>
-    <script src="js/products-data.js?v=2.4.0"></script>
-    <script src="js/product-modal.js?v=2.4.0"></script>
-    <script src="js/catalog-sort.js?v=2.4.0"></script>
-    <script src="js/catalog-pagination.js?v=2.4.0"></script>
-    <script src="js/catalog-search.js?v=2.4.0"></script>
-    <script src="js/cro-enhancements.js?v=2.4.0"></script>
-    <script src="js/mobile-drawer.js?v=2.4.0"></script>
+    <script src="js/analytics.js?v=2.5.0"></script>
+    <script src="js/theme-toggle.js?v=2.5.0"></script>
+    <script src="js/products-data.js?v=2.5.0"></script>
+    <script src="js/product-modal.js?v=2.5.0"></script>
+    <script src="js/catalog-sort.js?v=2.5.0"></script>
+    <script src="js/catalog-pagination.js?v=2.5.0"></script>
+    <script src="js/catalog-search.js?v=2.5.0"></script>
+    <script src="js/cro-enhancements.js?v=2.5.0"></script>
+    <script src="js/mobile-drawer.js?v=2.5.0"></script>
 </body>
 
 </html>

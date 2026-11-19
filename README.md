@@ -74,6 +74,12 @@ No arquivo `css/tokens.css`, ajuste as variáveis da paleta conforme a necessida
 }
 ```
 
+### 3. Telemetria no GitHub Pages (GA4 + Microsoft Clarity)
+O arquivo [js/analytics.js](file:///c:/Users/Micro/Documents/Projeto_MeusMoveis/js/analytics.js) já está ativo e envia visitas diárias, navegação de páginas, cliques em links, abertura de produtos no modal, buscas, filtros e cliques no WhatsApp diretamente para:
+- **Google Analytics 4 (GA4):** Measurement ID `G-8VNZNQ8C1K` (Propriedade `416985372`).
+- **Microsoft Clarity:** Project ID `zftkkx1ir8` (mapas de calor e gravações de sessão).
+- **Diagnóstico ao vivo:** abra qualquer página com `?analytics=1` na URL (ex.: `https://rjmoveis.app.br/?analytics=1`) para conferir os eventos disparados neste navegador em tempo real.
+
 ---
 
 ## 🚀 Como Executar Localmente

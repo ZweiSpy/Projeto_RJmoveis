@@ -17,7 +17,7 @@ const path = require('path');
 const { extractSourcePricesMap, buildCardPriceHtml } = require('./extract_prices_and_update_data');
 
 const BASE_DIR = path.resolve(__dirname, '..');
-const CACHE_VERSION = '2.4.0';
+const CACHE_VERSION = '2.5.0';
 
 const TARGET_PAGES = [
     'index.html',
@@ -105,7 +105,7 @@ function updateSortSelect(html) {
 }
 
 function bumpCacheVersion(html) {
-    let updated = html.replace(/\?v=2\.[23]\.0/g, `?v=${CACHE_VERSION}`);
+    let updated = html.replace(/\?v=2\.[234]\.0/g, `?v=${CACHE_VERSION}`);
     updated = updated.replace(
         /<script src="js\/products-data\.js(?:\?v=[\d.]+)?"><\/script>/gi,
         `<script src="js/products-data.js?v=${CACHE_VERSION}"></script>`
@@ -115,6 +115,13 @@ function bumpCacheVersion(html) {
 
 function applyDesignAndStabilityUpgrades(html, totalCards) {
     let updated = html;
+
+    // 0. Remover scripts legados da Vercel (/ _vercel / -> 404 no GitHub Pages)
+    updated = updated.replace(
+        /\s*<!--\s*Vercel Web Analytics[\s\S]*?<script defer src="\/_vercel\/speed-insights\/script\.js"><\/script>/gi,
+        '\n    <!-- Telemetria GitHub Pages (GA4 + Microsoft Clarity via js/analytics.js) -->'
+    );
+    updated = updated.replace(/<script[^>]*src="\/_vercel\/(?:insights|speed-insights)\/script\.js"[^>]*><\/script>\r?\n?/gi, '');
 
     // 1. Corrigir link quebrado do Google Fonts para carregar Plus Jakarta Sans (400..800)
     const brokenFontRegex = /<link\s+href="https:\/\/fonts\.googleapis\.com\/css2\?family=Source\+Sans\+3[^"]*"\s+rel="stylesheet">/i;

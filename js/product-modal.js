@@ -257,6 +257,9 @@
             `;
             modalElements.videoBox.style.display = 'block';
             modalElements.featuredImg.style.display = 'none';
+            if (window.RJ_Analytics && typeof window.RJ_Analytics.trackProductMedia === 'function') {
+                window.RJ_Analytics.trackProductMedia(currentProduct.id, currentProduct.title, 'video', 'youtube');
+            }
         });
 
         return modalElements;
@@ -311,7 +314,7 @@
         elems.priceBox.style.display = 'flex';
     }
 
-    async function openModal(productId, fallbackTitle, fallbackImg, fallbackPrice) {
+    async function openModal(productId, fallbackTitle, fallbackImg, fallbackPrice, source) {
         const elems = getOrCreateModal();
         const prod = await getProductById(productId);
 
@@ -328,6 +331,10 @@
         // Configurar Título e Preço Oficial
         elems.title.textContent = currentProduct.title;
         renderModalPrice(elems, currentProduct.price || fallbackPrice || null);
+
+        if (window.RJ_Analytics && typeof window.RJ_Analytics.trackProductModalOpen === 'function') {
+            window.RJ_Analytics.trackProductModalOpen(currentProduct.id || productId, currentProduct.title, source || 'grid_card');
+        }
 
         // Configurar Link Principal do WhatsApp com Copywriting Persuasivo
         const msgWhats = encodeURIComponent(`Olá, equipe RJ Móveis! Me encantei pelo *${currentProduct.title}* no catálogo oficial. Gostaria de consultar opções de cores de tecido, prazo de entrega para meu CEP e condições. Poderiam me atender?`);
@@ -374,6 +381,10 @@
 
                 elems.galleryThumbs.querySelectorAll('.product-modal-thumb').forEach(t => t.classList.remove('active'));
                 thumb.classList.add('active');
+
+                if (window.RJ_Analytics && typeof window.RJ_Analytics.trackProductMedia === 'function') {
+                    window.RJ_Analytics.trackProductMedia(currentProduct.id || productId, currentProduct.title, 'gallery_thumb', `foto_${idx + 1}`);
+                }
             });
 
             elems.galleryThumbs.appendChild(thumb);
@@ -461,7 +472,7 @@
         const salePriceElem = card.querySelector('.product-card-price .price, [data-element="sale-price"]');
         const fallbackPrice = salePriceElem ? { saleFormatted: salePriceElem.textContent.trim() } : null;
 
-        openModal(productId, fallbackTitle, fallbackImg, fallbackPrice);
+        openModal(productId, fallbackTitle, fallbackImg, fallbackPrice, 'grid_card');
     });
 
     // Expõe globalmente caso necessário
